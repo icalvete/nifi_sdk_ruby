@@ -24,6 +24,7 @@ Or install it yourself as:
 
 ## Usage
 
+### Get root id
 
 ```ruby
 require 'nifi_sdk_ruby'
@@ -38,14 +39,34 @@ puts "PG Root's ID"
 puts "\n"
 puts pg_root_id
 puts "\n"
+```
 
 # Get all attrs of the Process Group with ID 9c3ebb60-015b-1000-1027-b27d47832152 (PG Root's child)
+
+```ruby
 some_pg = nifi_client.get_process_group(:pg_id => '9c3ebb60-015b-1000-1027-b27d47832152')
 puts "PG 9c3ebb60-015b-1000-1027-b27d47832152`s attrs"
 puts "\n"
 puts some_pg
 puts "\n"
+```
 
+# Create new PG
+```ruby
+puts "Create new PG"
+puts "\n"
+new_pg = nifi_client.create_process_group(:name => 'test')
+puts "\n"
+puts new_pg
+puts "\n"
+```
+
+# Delete some pg
+```ruby
+puts "Delete PG with id 9c3ebb60-015b-1000-1027-b27d47832152"
+puts "\n"
+nifi_client.delete_process_group('9c3ebb60-015b-1000-1027-b27d47832152')
+puts "\n"
 ```
 
 ## Contributing

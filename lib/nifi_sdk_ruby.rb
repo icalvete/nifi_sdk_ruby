@@ -5,6 +5,7 @@ require 'pp' if ENV['DEBUG']
 require 'httparty'
 require 'curb'
 require 'json'
+require 'securerandom'
 
 class Nifi
 
@@ -23,6 +24,7 @@ class Nifi
   @@async
   @@sdk_name
   @@sdk_version
+  @@client_id
 
   def initialize(*args)
 
@@ -36,6 +38,7 @@ class Nifi
     @@async       = DEFAULT_ACYNC
     @@sdk_name    = 'ruby'
     @@sdk_version = NifiSdkRuby::VERSION
+    @@client_id   = SecureRandom.uuid
   end
 
   def set_debug(debug = nil)
@@ -102,6 +105,30 @@ class Nifi
     return res
   end
 
+  def create_process_group(*args)
+    args = args.reduce Hash.new, :merge
+
+    if args[:name].nil?
+      abort 'name params is mandatory.'
+    end
+
+    params = '{"revision":{"clientId":"' + @@client_id + '","version":0},"component":{"name":"' + args[:name] + '","position":{"x":274.54776144527517,"y":-28.886681059739686}}}'
+
+    process_group = args[:pg_id] ? args[:pg_id] : 'root'
+    base_url = @@base_url + "/process-groups/#{process_group}/process-groups"
+    self.class.http_client(base_url, 'POSTRAW', params)
+  end
+
+  def delete_process_group(id = nil)
+
+    if id.nil?
+      abort 'id is mandatory.'
+    end
+
+    base_url = @@base_url + '/process-groups/' + id + '?clientId=' + @@client_id + '&version=1'
+    self.class.http_client(base_url, 'DELETE')
+  end
+
   private
 
   def self.http_client(url, method = 'GET', params = nil, filename = nil)
@@ -120,6 +147,7 @@ class Nifi
       when 'GET'
         c.get
       when 'POSTRAW'
+        c.headers['Content-Type'] = 'application/json'
         c.post(params)
       when 'POST'
         c.multipart_form_post = true
