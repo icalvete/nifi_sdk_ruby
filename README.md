@@ -4,6 +4,8 @@ A RUBY SDK to use [APACHE NIFI](https://nifi.apache.org/) API.
 
 See more at [APACHE NIFI API](https://nifi.apache.org/docs/nifi-docs/rest-api/index.html).
 
+https://rubygems.org/gems/nifi_sdk_ruby
+
 ## Installation
 
 Add this line to your application's Gemfile:
@@ -23,8 +25,8 @@ Or install it yourself as:
 ## Usage
 
 
-```
-require '../lib/nifi_sdk_ruby'
+```ruby
+require 'nifi_sdk_ruby'
 
 nifi_client = Nifi.new()
 nifi_client.set_debug(true)
