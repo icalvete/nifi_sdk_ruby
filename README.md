@@ -41,7 +41,7 @@ puts pg_root_id
 puts "\n"
 ```
 
-# Get all attrs of the Process Group with ID 9c3ebb60-015b-1000-1027-b27d47832152 (PG Root's child)
+### Get all attrs of the Process Group with ID 9c3ebb60-015b-1000-1027-b27d47832152 (PG Root's child)
 
 ```ruby
 some_pg = nifi_client.get_process_group(:pg_id => '9c3ebb60-015b-1000-1027-b27d47832152')
@@ -51,7 +51,7 @@ puts some_pg
 puts "\n"
 ```
 
-# Create new PG
+### Create new PG
 ```ruby
 puts "Create new PG"
 puts "\n"
@@ -61,7 +61,7 @@ puts new_pg
 puts "\n"
 ```
 
-# Delete some pg
+### Delete some pg
 ```ruby
 puts "Delete PG with id 9c3ebb60-015b-1000-1027-b27d47832152"
 puts "\n"
