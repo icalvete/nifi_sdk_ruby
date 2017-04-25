@@ -37,31 +37,35 @@ nifi_client.set_debug(true)
 ### Get root id
 
 ```ruby
-# Get the ID of Root Process Group
-pg_root_id = nifi_client.get_process_group(:attr => 'id')
+# Get Root Process Group
+pg_root = nifi_client.get_process_group()
 puts "PG Root's ID"
-puts pg_root_id
+puts pg_root['id']
+```
+
+### Create new PG
+
+```ruby
+new_pg = nifi_client.create_process_group(:name => 'test')
+puts new_pg
 ```
 
 ### Get all attrs of the Process Group with ID 9c3ebb60-015b-1000-1027-b27d47832152 (PG Root's child)
 
 ```ruby
-some_pg = nifi_client.get_process_group(:pg_id => '9c3ebb60-015b-1000-1027-b27d47832152')
-puts "PG 9c3ebb60-015b-1000-1027-b27d47832152`s attrs"
-puts some_pg
+puts  nifi_client.get_process_group(:id => new_pg['id'])
 ```
 
-### Create new PG
+### Delete some PG
+
 ```ruby
-puts "Create new PG"
-new_pg = nifi_client.create_process_group(:name => 'test')
-puts new_pg
+puts nifi_client.delete_process_group(new_pg['id'])
 ```
 
-### Delete some pg
+# Upload a template to Root PG
+
 ```ruby
-puts "Delete PG with id 9c3ebb60-015b-1000-1027-b27d47832152"
-nifi_client.delete_process_group('9c3ebb60-015b-1000-1027-b27d47832152')
+puts nifi_client.upload_template(:path => 'IN.hmStaff.taskStatus.xml')
 ```
 
 ## Contributing

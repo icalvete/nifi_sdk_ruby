@@ -6,6 +6,7 @@ require 'httparty'
 require 'curb'
 require 'json'
 require 'securerandom'
+require 'active_support/all'
 
 class Nifi
 
@@ -93,16 +94,10 @@ class Nifi
 
     args = args.reduce Hash.new, :merge
 
-    process_group = args[:pg_id] ? args[:pg_id] : 'root'
+    process_group = args[:id] ? args[:id] : 'root'
 
     base_url = @@base_url + "/process-groups/#{process_group}"
-    res = self.class.http_client(base_url)
-
-    if args[:attr]
-      return res[args[:attr]]
-    end
-
-    return res
+    self.class.http_client(base_url)
   end
 
   def create_process_group(*args)
@@ -114,7 +109,7 @@ class Nifi
 
     params = '{"revision":{"clientId":"' + @@client_id + '","version":0},"component":{"name":"' + args[:name] + '","position":{"x":274.54776144527517,"y":-28.886681059739686}}}'
 
-    process_group = args[:pg_id] ? args[:pg_id] : 'root'
+    process_group = args[:id] ? args[:id] : 'root'
     base_url = @@base_url + "/process-groups/#{process_group}/process-groups"
     self.class.http_client(base_url, 'POSTRAW', params)
   end
@@ -127,6 +122,29 @@ class Nifi
 
     base_url = @@base_url + '/process-groups/' + id + '?clientId=' + @@client_id + '&version=1'
     self.class.http_client(base_url, 'DELETE')
+  end
+
+  def upload_template(*args)
+
+    args = args.reduce Hash.new, :merge
+    
+    if args[:path].nil?
+      abort 'path params is mandatory.'
+    end
+    path = args[:path]
+
+    if not File.file? path or not File.readable? path
+      abort "Access to #{path} failed"
+    end
+    params = Array.new
+    params << Curl::PostField.file('template', path)
+
+    process_group = args[:id] ? args[:id] : 'root'
+
+    base_url = @@base_url + "/process-groups/#{process_group}/templates/upload"
+    res = self.class.http_client(base_url, 'POST', params)
+
+    return res['templateEntity']['template']
   end
 
   private
@@ -161,7 +179,13 @@ class Nifi
     end
 
     if c.response_code.to_s.match(/20./) and not c.body_str.empty?
-      JSON.parse(c.body_str)
+      begin
+        JSON.parse(c.body_str)
+      rescue
+        if c.content_type == 'application/xml'
+          JSON.parse(Hash.from_xml(c.body_str).to_json)
+        end
+      end
     else
       puts c.body_str
     end

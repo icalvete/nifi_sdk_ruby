@@ -1,0 +1,1938 @@
+<?xml version="1.0" ?>
+<template encoding-version="1.0">
+  <description>IN: recepci?n de la informaci?n enviada por Staff de eventos TaskStatus
+Espera un HTTP POST en puerto 10001 con payload: 
+{
+  "TASK_STATUS": {
+    "hotel_id": "GHPC",
+    "creator_user": "pepito",
+    "service_id": "SFT", 
+    "service_task_id": "123456", 
+    "service_user": "John Doe", 
+    "service_status": "3",
+    "service_data": "Delivered to guest", 
+    "service_tag_list": {
+      "case": "123",
+      "subcase": "456" 
+    },
+    "sender_id": "SFCC",
+    "room": "101"
+  }
+}
+
+OUT: FlowFile con atributos:
+  staff_task.creator_user
+  staff_task.service_id
+  staff_task.service_task_id
+  staff_task.modified_by_user = service_user
+  staff_task.service_status
+  staff_task.service_data
+  staff_task.tag_list
+  staff_task.data = payload json TASK_STATUS
+  hmobile.hotel_id      
+  hmobile.room </description>
+  <groupId>398e6b23-015a-1000-b8b9-7f80b519bdb7</groupId>
+  <name>IN.hmStaff.taskStatus v1.0.5</name>
+  <snippet>
+    <labels>
+      <id>01591002-8280-1109-0000-000000000000</id>
+      <parentGroupId>398e6b23-015a-1000-0000-000000000000</parentGroupId>
+      <position>
+        <x>0.10428018475386125</x>
+        <y>0.0</y>
+      </position>
+      <height>20.0</height>
+      <label>Escucha el puerto 10001 en POST</label>
+      <style>
+        <entry>
+          <key>font-size</key>
+          <value>12px</value>
+        </entry>
+      </style>
+      <width>200.83241271972656</width>
+    </labels>
+    <labels>
+      <id>1026115f-116d-1a4b-0000-000000000000</id>
+      <parentGroupId>398e6b23-015a-1000-0000-000000000000</parentGroupId>
+      <position>
+        <x>0.0</x>
+        <y>24.83646887719442</y>
+      </position>
+      <height>20.0</height>
+      <label>/task_status</label>
+      <style>
+        <entry>
+          <key>font-size</key>
+          <value>12px</value>
+        </entry>
+      </style>
+      <width>278.7031555175781</width>
+    </labels>
+    <processGroups>
+      <id>b3dc7418-0159-1000-0000-000000000000</id>
+      <parentGroupId>398e6b23-015a-1000-0000-000000000000</parentGroupId>
+      <position>
+        <x>8.478433790843155</x>
+        <y>54.96979724183302</y>
+      </position>
+      <comments>IN: recepci?n de la informaci?n enviada por Staff de eventos TaskStatus
+Espera un HTTP POST en puerto 10001 con payload: 
+{
+	"TASK_STATUS": {
+		"hotel_id": "GHPC",
+		"creator_user": "pepito",
+		"service_id": "SFT", 
+		"service_task_id": "123456", 
+		"service_user": "John Doe", 
+		"service_status": "3",
+		"service_data": "Delivered to guest", 
+		"service_tag_list": {
+			"case": "123",
+			"subcase": "456" 
+		},
+		"sender_id": "SFCC",
+		"room": "101"
+	}
+}
+
+OUT: FlowFile con atributos:
+  staff_task.creator_user
+  staff_task.service_id
+  staff_task.service_task_id
+  staff_task.modified_by_user = service_user
+  staff_task.service_status
+  staff_task.service_data
+  staff_task.tag_list
+  staff_task.data = payload json TASK_STATUS
+  hmobile.hotel_id      
+  hmobile.room </comments>
+      <contents>
+        <connections>
+          <id>015a1001-1c08-1d40-0000-000000000000</id>
+          <parentGroupId>b3dc7418-0159-1000-0000-000000000000</parentGroupId>
+          <backPressureDataSizeThreshold>1 GB</backPressureDataSizeThreshold>
+          <backPressureObjectThreshold>10000</backPressureObjectThreshold>
+          <destination>
+            <groupId>b3dc7418-0159-1000-0000-000000000000</groupId>
+            <id>01591004-a16e-163c-0000-000000000000</id>
+            <type>PROCESSOR</type>
+          </destination>
+          <flowFileExpiration>0 sec</flowFileExpiration>
+          <labelIndex>1</labelIndex>
+          <name></name>
+          <selectedRelationships>success</selectedRelationships>
+          <source>
+            <groupId>b3dc7418-0159-1000-0000-000000000000</groupId>
+            <id>015a1000-1c08-1d40-0000-000000000000</id>
+            <type>PROCESSOR</type>
+          </source>
+          <zIndex>0</zIndex>
+        </connections>
+        <connections>
+          <id>015a1001-7cb9-1d4e-0000-000000000000</id>
+          <parentGroupId>b3dc7418-0159-1000-0000-000000000000</parentGroupId>
+          <backPressureDataSizeThreshold>1 GB</backPressureDataSizeThreshold>
+          <backPressureObjectThreshold>10000</backPressureObjectThreshold>
+          <destination>
+            <groupId>b3dc7418-0159-1000-0000-000000000000</groupId>
+            <id>2d401c08-015a-1000-0000-000000000000</id>
+            <type>PROCESSOR</type>
+          </destination>
+          <flowFileExpiration>0 sec</flowFileExpiration>
+          <labelIndex>1</labelIndex>
+          <name></name>
+          <selectedRelationships>matched</selectedRelationships>
+          <selectedRelationships>unmatched</selectedRelationships>
+          <source>
+            <groupId>b3dc7418-0159-1000-0000-000000000000</groupId>
+            <id>015a1000-7cb9-1d4e-0000-000000000000</id>
+            <type>PROCESSOR</type>
+          </source>
+          <zIndex>0</zIndex>
+        </connections>
+        <connections>
+          <id>015a1009-7cb9-1d4e-0000-000000000000</id>
+          <parentGroupId>b3dc7418-0159-1000-0000-000000000000</parentGroupId>
+          <backPressureDataSizeThreshold>1 GB</backPressureDataSizeThreshold>
+          <backPressureObjectThreshold>10000</backPressureObjectThreshold>
+          <destination>
+            <groupId>b3dc7418-0159-1000-0000-000000000000</groupId>
+            <id>015a1000-7cb9-1d4e-0000-000000000000</id>
+            <type>PROCESSOR</type>
+          </destination>
+          <flowFileExpiration>0 sec</flowFileExpiration>
+          <labelIndex>1</labelIndex>
+          <name></name>
+          <selectedRelationships>failure</selectedRelationships>
+          <selectedRelationships>success</selectedRelationships>
+          <source>
+            <groupId>b3dc7418-0159-1000-0000-000000000000</groupId>
+            <id>10261159-1167-1a4b-0000-000000000000</id>
+            <type>PROCESSOR</type>
+          </source>
+          <zIndex>0</zIndex>
+        </connections>
+        <connections>
+          <id>10261159-116c-1a4b-0000-000000000000</id>
+          <parentGroupId>b3dc7418-0159-1000-0000-000000000000</parentGroupId>
+          <backPressureDataSizeThreshold>1 GB</backPressureDataSizeThreshold>
+          <backPressureObjectThreshold>10000</backPressureObjectThreshold>
+          <destination>
+            <groupId>b3dc7418-0159-1000-0000-000000000000</groupId>
+            <id>01591005-a16e-163c-0000-000000000000</id>
+            <type>PROCESSOR</type>
+          </destination>
+          <flowFileExpiration>0 sec</flowFileExpiration>
+          <labelIndex>1</labelIndex>
+          <name></name>
+          <selectedRelationships>failure</selectedRelationships>
+          <selectedRelationships>success</selectedRelationships>
+          <source>
+            <groupId>b3dc7418-0159-1000-0000-000000000000</groupId>
+            <id>10261159-116b-1a4b-0000-000000000000</id>
+            <type>PROCESSOR</type>
+          </source>
+          <zIndex>0</zIndex>
+        </connections>
+        <connections>
+          <id>10261159-116d-1a4b-0000-000000000000</id>
+          <parentGroupId>b3dc7418-0159-1000-0000-000000000000</parentGroupId>
+          <backPressureDataSizeThreshold>1 GB</backPressureDataSizeThreshold>
+          <backPressureObjectThreshold>10000</backPressureObjectThreshold>
+          <destination>
+            <groupId>b3dc7418-0159-1000-0000-000000000000</groupId>
+            <id>01591002-a16e-163c-0000-000000000000</id>
+            <type>PROCESSOR</type>
+          </destination>
+          <flowFileExpiration>0 sec</flowFileExpiration>
+          <labelIndex>1</labelIndex>
+          <name></name>
+          <selectedRelationships>unmatched</selectedRelationships>
+          <source>
+            <groupId>b3dc7418-0159-1000-0000-000000000000</groupId>
+            <id>10261159-1165-1a4b-0000-000000000000</id>
+            <type>PROCESSOR</type>
+          </source>
+          <zIndex>0</zIndex>
+        </connections>
+        <connections>
+          <id>1026115a-116b-1a4b-0000-000000000000</id>
+          <parentGroupId>b3dc7418-0159-1000-0000-000000000000</parentGroupId>
+          <backPressureDataSizeThreshold>1 GB</backPressureDataSizeThreshold>
+          <backPressureObjectThreshold>10000</backPressureObjectThreshold>
+          <destination>
+            <groupId>b3dc7418-0159-1000-0000-000000000000</groupId>
+            <id>01591005-a16e-163c-0000-000000000000</id>
+            <type>PROCESSOR</type>
+          </destination>
+          <flowFileExpiration>0 sec</flowFileExpiration>
+          <labelIndex>1</labelIndex>
+          <name></name>
+          <selectedRelationships>failure</selectedRelationships>
+          <selectedRelationships>success</selectedRelationships>
+          <source>
+            <groupId>b3dc7418-0159-1000-0000-000000000000</groupId>
+            <id>01591001-a16e-163c-0000-000000000000</id>
+            <type>PROCESSOR</type>
+          </source>
+          <zIndex>0</zIndex>
+        </connections>
+        <connections>
+          <id>1026115b-116b-1a4b-0000-000000000000</id>
+          <parentGroupId>b3dc7418-0159-1000-0000-000000000000</parentGroupId>
+          <backPressureDataSizeThreshold>1 GB</backPressureDataSizeThreshold>
+          <backPressureObjectThreshold>10000</backPressureObjectThreshold>
+          <destination>
+            <groupId>b3dc7418-0159-1000-0000-000000000000</groupId>
+            <id>10261159-1167-1a4b-0000-000000000000</id>
+            <type>PROCESSOR</type>
+          </destination>
+          <flowFileExpiration>0 sec</flowFileExpiration>
+          <labelIndex>1</labelIndex>
+          <name></name>
+          <selectedRelationships>failure</selectedRelationships>
+          <selectedRelationships>success</selectedRelationships>
+          <source>
+            <groupId>b3dc7418-0159-1000-0000-000000000000</groupId>
+            <id>01591002-a16e-163c-0000-000000000000</id>
+            <type>PROCESSOR</type>
+          </source>
+          <zIndex>0</zIndex>
+        </connections>
+        <connections>
+          <id>1026115d-116b-1a4b-0000-000000000000</id>
+          <parentGroupId>b3dc7418-0159-1000-0000-000000000000</parentGroupId>
+          <backPressureDataSizeThreshold>1 GB</backPressureDataSizeThreshold>
+          <backPressureObjectThreshold>10000</backPressureObjectThreshold>
+          <destination>
+            <groupId>b3dc7418-0159-1000-0000-000000000000</groupId>
+            <id>10261159-1165-1a4b-0000-000000000000</id>
+            <type>PROCESSOR</type>
+          </destination>
+          <flowFileExpiration>0 sec</flowFileExpiration>
+          <labelIndex>1</labelIndex>
+          <name></name>
+          <selectedRelationships>matched</selectedRelationships>
+          <source>
+            <groupId>b3dc7418-0159-1000-0000-000000000000</groupId>
+            <id>01591004-a16e-163c-0000-000000000000</id>
+            <type>PROCESSOR</type>
+          </source>
+          <zIndex>0</zIndex>
+        </connections>
+        <connections>
+          <id>1026115e-116b-1a4b-0000-000000000000</id>
+          <parentGroupId>b3dc7418-0159-1000-0000-000000000000</parentGroupId>
+          <backPressureDataSizeThreshold>1 GB</backPressureDataSizeThreshold>
+          <backPressureObjectThreshold>10000</backPressureObjectThreshold>
+          <destination>
+            <groupId>b3dc7418-0159-1000-0000-000000000000</groupId>
+            <id>01591001-a16e-163c-0000-000000000000</id>
+            <type>PROCESSOR</type>
+          </destination>
+          <flowFileExpiration>0 sec</flowFileExpiration>
+          <labelIndex>1</labelIndex>
+          <name></name>
+          <selectedRelationships>failure</selectedRelationships>
+          <selectedRelationships>unmatched</selectedRelationships>
+          <source>
+            <groupId>b3dc7418-0159-1000-0000-000000000000</groupId>
+            <id>01591004-a16e-163c-0000-000000000000</id>
+            <type>PROCESSOR</type>
+          </source>
+          <zIndex>0</zIndex>
+        </connections>
+        <connections>
+          <id>1026115f-116b-1a4b-0000-000000000000</id>
+          <parentGroupId>b3dc7418-0159-1000-0000-000000000000</parentGroupId>
+          <backPressureDataSizeThreshold>1 GB</backPressureDataSizeThreshold>
+          <backPressureObjectThreshold>10000</backPressureObjectThreshold>
+          <destination>
+            <groupId>b3dc7418-0159-1000-0000-000000000000</groupId>
+            <id>10261159-116b-1a4b-0000-000000000000</id>
+            <type>PROCESSOR</type>
+          </destination>
+          <flowFileExpiration>0 sec</flowFileExpiration>
+          <labelIndex>1</labelIndex>
+          <name></name>
+          <selectedRelationships>error.no_creator_user</selectedRelationships>
+          <selectedRelationships>error.no_data</selectedRelationships>
+          <selectedRelationships>error.no_hotel_id</selectedRelationships>
+          <selectedRelationships>error.no_room</selectedRelationships>
+          <source>
+            <groupId>b3dc7418-0159-1000-0000-000000000000</groupId>
+            <id>10261159-1165-1a4b-0000-000000000000</id>
+            <type>PROCESSOR</type>
+          </source>
+          <zIndex>0</zIndex>
+        </connections>
+        <connections>
+          <id>10261163-116d-1a4b-0000-000000000000</id>
+          <parentGroupId>b3dc7418-0159-1000-0000-000000000000</parentGroupId>
+          <backPressureDataSizeThreshold>1 GB</backPressureDataSizeThreshold>
+          <backPressureObjectThreshold>10000</backPressureObjectThreshold>
+          <destination>
+            <groupId>b3dc7418-0159-1000-0000-000000000000</groupId>
+            <id>10261160-116d-1a4b-0000-000000000000</id>
+            <type>OUTPUT_PORT</type>
+          </destination>
+          <flowFileExpiration>0 sec</flowFileExpiration>
+          <labelIndex>1</labelIndex>
+          <name></name>
+          <selectedRelationships>success</selectedRelationships>
+          <source>
+            <groupId>b3dc7418-0159-1000-0000-000000000000</groupId>
+            <id>10261159-1167-1a4b-0000-000000000000</id>
+            <type>PROCESSOR</type>
+          </source>
+          <zIndex>0</zIndex>
+        </connections>
+        <connections>
+          <id>2d4a9eb3-015a-1000-0000-000000000000</id>
+          <parentGroupId>b3dc7418-0159-1000-0000-000000000000</parentGroupId>
+          <backPressureDataSizeThreshold>1 GB</backPressureDataSizeThreshold>
+          <backPressureObjectThreshold>10000</backPressureObjectThreshold>
+          <destination>
+            <groupId>b3dc7418-0159-1000-0000-000000000000</groupId>
+            <id>2d3f3ea6-015a-1000-0000-000000000000</id>
+            <type>OUTPUT_PORT</type>
+          </destination>
+          <flowFileExpiration>0 sec</flowFileExpiration>
+          <labelIndex>1</labelIndex>
+          <name></name>
+          <selectedRelationships>success</selectedRelationships>
+          <source>
+            <groupId>b3dc7418-0159-1000-0000-000000000000</groupId>
+            <id>2d401c08-015a-1000-0000-000000000000</id>
+            <type>PROCESSOR</type>
+          </source>
+          <zIndex>0</zIndex>
+        </connections>
+        <connections>
+          <id>2d4af590-015a-1000-0000-000000000000</id>
+          <parentGroupId>b3dc7418-0159-1000-0000-000000000000</parentGroupId>
+          <backPressureDataSizeThreshold>1 GB</backPressureDataSizeThreshold>
+          <backPressureObjectThreshold>10000</backPressureObjectThreshold>
+          <destination>
+            <groupId>b3dc7418-0159-1000-0000-000000000000</groupId>
+            <id>015a1000-7cb9-1d4e-0000-000000000000</id>
+            <type>PROCESSOR</type>
+          </destination>
+          <flowFileExpiration>0 sec</flowFileExpiration>
+          <labelIndex>1</labelIndex>
+          <name></name>
+          <selectedRelationships>failure</selectedRelationships>
+          <selectedRelationships>success</selectedRelationships>
+          <source>
+            <groupId>b3dc7418-0159-1000-0000-000000000000</groupId>
+            <id>01591005-a16e-163c-0000-000000000000</id>
+            <type>PROCESSOR</type>
+          </source>
+          <zIndex>0</zIndex>
+        </connections>
+        <connections>
+          <id>2d4efd97-015a-1000-0000-000000000000</id>
+          <parentGroupId>b3dc7418-0159-1000-0000-000000000000</parentGroupId>
+          <backPressureDataSizeThreshold>1 GB</backPressureDataSizeThreshold>
+          <backPressureObjectThreshold>10000</backPressureObjectThreshold>
+          <destination>
+            <groupId>b3dc7418-0159-1000-0000-000000000000</groupId>
+            <id>2d4e7cb9-015a-1000-0000-000000000000</id>
+            <type>PROCESSOR</type>
+          </destination>
+          <flowFileExpiration>0 sec</flowFileExpiration>
+          <labelIndex>1</labelIndex>
+          <name></name>
+          <selectedRelationships>success</selectedRelationships>
+          <source>
+            <groupId>b3dc7418-0159-1000-0000-000000000000</groupId>
+            <id>01591003-a16e-163c-0000-000000000000</id>
+            <type>PROCESSOR</type>
+          </source>
+          <zIndex>0</zIndex>
+        </connections>
+        <connections>
+          <id>2d4f371c-015a-1000-0000-000000000000</id>
+          <parentGroupId>b3dc7418-0159-1000-0000-000000000000</parentGroupId>
+          <backPressureDataSizeThreshold>1 GB</backPressureDataSizeThreshold>
+          <backPressureObjectThreshold>10000</backPressureObjectThreshold>
+          <destination>
+            <groupId>b3dc7418-0159-1000-0000-000000000000</groupId>
+            <id>015a1000-1c08-1d40-0000-000000000000</id>
+            <type>PROCESSOR</type>
+          </destination>
+          <flowFileExpiration>0 sec</flowFileExpiration>
+          <labelIndex>1</labelIndex>
+          <name></name>
+          <selectedRelationships>matched</selectedRelationships>
+          <selectedRelationships>unmatched</selectedRelationships>
+          <source>
+            <groupId>b3dc7418-0159-1000-0000-000000000000</groupId>
+            <id>2d4e7cb9-015a-1000-0000-000000000000</id>
+            <type>PROCESSOR</type>
+          </source>
+          <zIndex>0</zIndex>
+        </connections>
+        <controllerServices>
+          <id>b369d993-48ae-4c0e-0000-000000000000</id>
+          <parentGroupId>b3dc7418-0159-1000-0000-000000000000</parentGroupId>
+          <comments></comments>
+          <descriptors>
+            <entry>
+              <key>Maximum Outstanding Requests</key>
+              <value>
+                <name>Maximum Outstanding Requests</name>
+              </value>
+            </entry>
+            <entry>
+              <key>Request Expiration</key>
+              <value>
+                <name>Request Expiration</name>
+              </value>
+            </entry>
+          </descriptors>
+          <name>StandardHttpContextMap</name>
+          <properties>
+            <entry>
+              <key>Maximum Outstanding Requests</key>
+              <value>5000</value>
+            </entry>
+            <entry>
+              <key>Request Expiration</key>
+              <value>1 min</value>
+            </entry>
+          </properties>
+          <state>ENABLED</state>
+          <type>org.apache.nifi.http.StandardHttpContextMap</type>
+        </controllerServices>
+        <labels>
+          <id>01591000-a16e-163c-0000-000000000000</id>
+          <parentGroupId>b3dc7418-0159-1000-0000-000000000000</parentGroupId>
+          <position>
+            <x>1046.7039888980908</x>
+            <y>101.00001039258802</y>
+          </position>
+          <height>20.0</height>
+          <label>Recibe un json y obtiene los atributos de staff_task y hmobile</label>
+          <style>
+            <entry>
+              <key>font-size</key>
+              <value>12px</value>
+            </entry>
+          </style>
+          <width>338.9263916015625</width>
+        </labels>
+        <labels>
+          <id>015a100e-7cb9-1d4e-0000-000000000000</id>
+          <parentGroupId>b3dc7418-0159-1000-0000-000000000000</parentGroupId>
+          <position>
+            <x>475.09827600746576</x>
+            <y>90.68295564405287</y>
+          </position>
+          <height>20.0</height>
+          <label>Pasa el payload recibido a un atributo y genera informaci?n para el LOG de INPUT</label>
+          <style>
+            <entry>
+              <key>font-size</key>
+              <value>12px</value>
+            </entry>
+          </style>
+          <width>446.365234375</width>
+        </labels>
+        <labels>
+          <id>015a1010-7cb9-1d4e-0000-000000000000</id>
+          <parentGroupId>b3dc7418-0159-1000-0000-000000000000</parentGroupId>
+          <position>
+            <x>2848.764991554155</x>
+            <y>607.6595725833871</y>
+          </position>
+          <height>20.0</height>
+          <label>Pasa el payload de respuesta enviado a un atributo y genera informaci?n para el LOG de OUTPUT</label>
+          <style>
+            <entry>
+              <key>font-size</key>
+              <value>12px</value>
+            </entry>
+          </style>
+          <width>528.4945068359375</width>
+        </labels>
+        <labels>
+          <id>1026115c-116d-1a4b-0000-000000000000</id>
+          <parentGroupId>b3dc7418-0159-1000-0000-000000000000</parentGroupId>
+          <position>
+            <x>-139.31230914001316</x>
+            <y>65.95453451368189</y>
+          </position>
+          <height>20.0</height>
+          <label>Escucha el puerto 10001 en POST</label>
+          <style>
+            <entry>
+              <key>font-size</key>
+              <value>12px</value>
+            </entry>
+          </style>
+          <width>200.83241271972656</width>
+        </labels>
+        <labels>
+          <id>1026115d-116d-1a4b-0000-000000000000</id>
+          <parentGroupId>b3dc7418-0159-1000-0000-000000000000</parentGroupId>
+          <position>
+            <x>-138.46311474977819</x>
+            <y>90.49887468378472</y>
+          </position>
+          <height>20.0</height>
+          <label>/task_status</label>
+          <style>
+            <entry>
+              <key>font-size</key>
+              <value>12px</value>
+            </entry>
+          </style>
+          <width>278.7031555175781</width>
+        </labels>
+        <labels>
+          <id>10261162-116d-1a4b-0000-000000000000</id>
+          <parentGroupId>b3dc7418-0159-1000-0000-000000000000</parentGroupId>
+          <position>
+            <x>2986.4398030157486</x>
+            <y>337.94012513868165</y>
+          </position>
+          <height>23.091421127319336</height>
+          <label>Envia respuesta al origen de la peticion</label>
+          <style>
+            <entry>
+              <key>font-size</key>
+              <value>12px</value>
+            </entry>
+          </style>
+          <width>351.3189697265625</width>
+        </labels>
+        <outputPorts>
+          <id>10261160-116d-1a4b-0000-000000000000</id>
+          <parentGroupId>b3dc7418-0159-1000-0000-000000000000</parentGroupId>
+          <position>
+            <x>3601.3201155157485</x>
+            <y>411.38000795118177</y>
+          </position>
+          <comments>Salida hacia otros m?dulos
+
+staff_task.data
+staff_task.hotel_id
+staff_task.creator_user</comments>
+          <concurrentlySchedulableTaskCount>1</concurrentlySchedulableTaskCount>
+          <name>staff_task_data</name>
+          <state>STOPPED</state>
+          <type>OUTPUT_PORT</type>
+        </outputPorts>
+        <outputPorts>
+          <id>2d3f3ea6-015a-1000-0000-000000000000</id>
+          <parentGroupId>b3dc7418-0159-1000-0000-000000000000</parentGroupId>
+          <position>
+            <x>3581.8404346957495</x>
+            <y>682.5517632116783</y>
+          </position>
+          <concurrentlySchedulableTaskCount>1</concurrentlySchedulableTaskCount>
+          <name>hmLoggingInfo</name>
+          <state>STOPPED</state>
+          <type>OUTPUT_PORT</type>
+        </outputPorts>
+        <processors>
+          <id>01591001-a16e-163c-0000-000000000000</id>
+          <parentGroupId>b3dc7418-0159-1000-0000-000000000000</parentGroupId>
+          <position>
+            <x>1050.9250615077226</x>
+            <y>359.61809576362765</y>
+          </position>
+          <config>
+            <bulletinLevel>WARN</bulletinLevel>
+            <comments></comments>
+            <concurrentlySchedulableTaskCount>1</concurrentlySchedulableTaskCount>
+            <descriptors>
+              <entry>
+                <key>Regular Expression</key>
+                <value>
+                  <name>Regular Expression</name>
+                </value>
+              </entry>
+              <entry>
+                <key>Replacement Value</key>
+                <value>
+                  <name>Replacement Value</name>
+                </value>
+              </entry>
+              <entry>
+                <key>Character Set</key>
+                <value>
+                  <name>Character Set</name>
+                </value>
+              </entry>
+              <entry>
+                <key>Maximum Buffer Size</key>
+                <value>
+                  <name>Maximum Buffer Size</name>
+                </value>
+              </entry>
+              <entry>
+                <key>Replacement Strategy</key>
+                <value>
+                  <name>Replacement Strategy</name>
+                </value>
+              </entry>
+              <entry>
+                <key>Evaluation Mode</key>
+                <value>
+                  <name>Evaluation Mode</name>
+                </value>
+              </entry>
+            </descriptors>
+            <executionNode>ALL</executionNode>
+            <lossTolerant>false</lossTolerant>
+            <penaltyDuration>30 sec</penaltyDuration>
+            <properties>
+              <entry>
+                <key>Regular Expression</key>
+                <value>(?s)(^.*$)</value>
+              </entry>
+              <entry>
+                <key>Replacement Value</key>
+                <value> { "action_result": { "result": { "code": "-1", "description": "Bad Json format" } }}</value>
+              </entry>
+              <entry>
+                <key>Character Set</key>
+                <value>UTF-8</value>
+              </entry>
+              <entry>
+                <key>Maximum Buffer Size</key>
+                <value>1 MB</value>
+              </entry>
+              <entry>
+                <key>Replacement Strategy</key>
+                <value>Always Replace</value>
+              </entry>
+              <entry>
+                <key>Evaluation Mode</key>
+                <value>Entire text</value>
+              </entry>
+            </properties>
+            <runDurationMillis>0</runDurationMillis>
+            <schedulingPeriod>0 sec</schedulingPeriod>
+            <schedulingStrategy>TIMER_DRIVEN</schedulingStrategy>
+            <yieldDuration>1 sec</yieldDuration>
+          </config>
+          <name>ReplaceText</name>
+          <relationships>
+            <autoTerminate>false</autoTerminate>
+            <name>failure</name>
+          </relationships>
+          <relationships>
+            <autoTerminate>false</autoTerminate>
+            <name>success</name>
+          </relationships>
+          <style></style>
+          <type>org.apache.nifi.processors.standard.ReplaceText</type>
+        </processors>
+        <processors>
+          <id>01591002-a16e-163c-0000-000000000000</id>
+          <parentGroupId>b3dc7418-0159-1000-0000-000000000000</parentGroupId>
+          <position>
+            <x>2373.8901247054264</x>
+            <y>153.22169244916023</y>
+          </position>
+          <config>
+            <bulletinLevel>WARN</bulletinLevel>
+            <comments></comments>
+            <concurrentlySchedulableTaskCount>1</concurrentlySchedulableTaskCount>
+            <descriptors>
+              <entry>
+                <key>Regular Expression</key>
+                <value>
+                  <name>Regular Expression</name>
+                </value>
+              </entry>
+              <entry>
+                <key>Replacement Value</key>
+                <value>
+                  <name>Replacement Value</name>
+                </value>
+              </entry>
+              <entry>
+                <key>Character Set</key>
+                <value>
+                  <name>Character Set</name>
+                </value>
+              </entry>
+              <entry>
+                <key>Maximum Buffer Size</key>
+                <value>
+                  <name>Maximum Buffer Size</name>
+                </value>
+              </entry>
+              <entry>
+                <key>Replacement Strategy</key>
+                <value>
+                  <name>Replacement Strategy</name>
+                </value>
+              </entry>
+              <entry>
+                <key>Evaluation Mode</key>
+                <value>
+                  <name>Evaluation Mode</name>
+                </value>
+              </entry>
+            </descriptors>
+            <executionNode>ALL</executionNode>
+            <lossTolerant>false</lossTolerant>
+            <penaltyDuration>30 sec</penaltyDuration>
+            <properties>
+              <entry>
+                <key>Regular Expression</key>
+                <value>(?s)(^.*$)</value>
+              </entry>
+              <entry>
+                <key>Replacement Value</key>
+                <value>{ "action_result": { "result": { "code": "0", "description": "ok" } }}</value>
+              </entry>
+              <entry>
+                <key>Character Set</key>
+                <value>UTF-8</value>
+              </entry>
+              <entry>
+                <key>Maximum Buffer Size</key>
+                <value>1 MB</value>
+              </entry>
+              <entry>
+                <key>Replacement Strategy</key>
+                <value>Regex Replace</value>
+              </entry>
+              <entry>
+                <key>Evaluation Mode</key>
+                <value>Entire text</value>
+              </entry>
+            </properties>
+            <runDurationMillis>0</runDurationMillis>
+            <schedulingPeriod>0 sec</schedulingPeriod>
+            <schedulingStrategy>TIMER_DRIVEN</schedulingStrategy>
+            <yieldDuration>1 sec</yieldDuration>
+          </config>
+          <name>Generate Http Result OK Payload</name>
+          <relationships>
+            <autoTerminate>false</autoTerminate>
+            <name>failure</name>
+          </relationships>
+          <relationships>
+            <autoTerminate>false</autoTerminate>
+            <name>success</name>
+          </relationships>
+          <style></style>
+          <type>org.apache.nifi.processors.standard.ReplaceText</type>
+        </processors>
+        <processors>
+          <id>01591003-a16e-163c-0000-000000000000</id>
+          <parentGroupId>b3dc7418-0159-1000-0000-000000000000</parentGroupId>
+          <position>
+            <x>-138.94593215270845</x>
+            <y>119.54316690573336</y>
+          </position>
+          <config>
+            <bulletinLevel>WARN</bulletinLevel>
+            <comments></comments>
+            <concurrentlySchedulableTaskCount>1</concurrentlySchedulableTaskCount>
+            <descriptors>
+              <entry>
+                <key>Listening Port</key>
+                <value>
+                  <name>Listening Port</name>
+                </value>
+              </entry>
+              <entry>
+                <key>Hostname</key>
+                <value>
+                  <name>Hostname</name>
+                </value>
+              </entry>
+              <entry>
+                <key>SSL Context Service</key>
+                <value>
+                  <identifiesControllerService>org.apache.nifi.ssl.SSLContextService</identifiesControllerService>
+                  <name>SSL Context Service</name>
+                </value>
+              </entry>
+              <entry>
+                <key>HTTP Context Map</key>
+                <value>
+                  <identifiesControllerService>org.apache.nifi.http.HttpContextMap</identifiesControllerService>
+                  <name>HTTP Context Map</name>
+                </value>
+              </entry>
+              <entry>
+                <key>Allowed Paths</key>
+                <value>
+                  <name>Allowed Paths</name>
+                </value>
+              </entry>
+              <entry>
+                <key>Default URL Character Set</key>
+                <value>
+                  <name>Default URL Character Set</name>
+                </value>
+              </entry>
+              <entry>
+                <key>Allow GET</key>
+                <value>
+                  <name>Allow GET</name>
+                </value>
+              </entry>
+              <entry>
+                <key>Allow POST</key>
+                <value>
+                  <name>Allow POST</name>
+                </value>
+              </entry>
+              <entry>
+                <key>Allow PUT</key>
+                <value>
+                  <name>Allow PUT</name>
+                </value>
+              </entry>
+              <entry>
+                <key>Allow DELETE</key>
+                <value>
+                  <name>Allow DELETE</name>
+                </value>
+              </entry>
+              <entry>
+                <key>Allow HEAD</key>
+                <value>
+                  <name>Allow HEAD</name>
+                </value>
+              </entry>
+              <entry>
+                <key>Allow OPTIONS</key>
+                <value>
+                  <name>Allow OPTIONS</name>
+                </value>
+              </entry>
+              <entry>
+                <key>Additional HTTP Methods</key>
+                <value>
+                  <name>Additional HTTP Methods</name>
+                </value>
+              </entry>
+              <entry>
+                <key>Client Authentication</key>
+                <value>
+                  <name>Client Authentication</name>
+                </value>
+              </entry>
+              <entry>
+                <key>container-queue-size</key>
+                <value>
+                  <name>container-queue-size</name>
+                </value>
+              </entry>
+            </descriptors>
+            <executionNode>ALL</executionNode>
+            <lossTolerant>false</lossTolerant>
+            <penaltyDuration>30 sec</penaltyDuration>
+            <properties>
+              <entry>
+                <key>Listening Port</key>
+                <value>10001</value>
+              </entry>
+              <entry>
+                <key>Hostname</key>
+              </entry>
+              <entry>
+                <key>SSL Context Service</key>
+              </entry>
+              <entry>
+                <key>HTTP Context Map</key>
+                <value>b369d993-48ae-4c0e-0000-000000000000</value>
+              </entry>
+              <entry>
+                <key>Allowed Paths</key>
+                <value>\/task_status</value>
+              </entry>
+              <entry>
+                <key>Default URL Character Set</key>
+                <value>UTF-8</value>
+              </entry>
+              <entry>
+                <key>Allow GET</key>
+                <value>true</value>
+              </entry>
+              <entry>
+                <key>Allow POST</key>
+                <value>true</value>
+              </entry>
+              <entry>
+                <key>Allow PUT</key>
+                <value>false</value>
+              </entry>
+              <entry>
+                <key>Allow DELETE</key>
+                <value>false</value>
+              </entry>
+              <entry>
+                <key>Allow HEAD</key>
+                <value>false</value>
+              </entry>
+              <entry>
+                <key>Allow OPTIONS</key>
+                <value>false</value>
+              </entry>
+              <entry>
+                <key>Additional HTTP Methods</key>
+                <value>hotel,room</value>
+              </entry>
+              <entry>
+                <key>Client Authentication</key>
+                <value>No Authentication</value>
+              </entry>
+              <entry>
+                <key>container-queue-size</key>
+                <value>50</value>
+              </entry>
+            </properties>
+            <runDurationMillis>0</runDurationMillis>
+            <schedulingPeriod>0 sec</schedulingPeriod>
+            <schedulingStrategy>TIMER_DRIVEN</schedulingStrategy>
+            <yieldDuration>1 sec</yieldDuration>
+          </config>
+          <name>HandleHttpRequest</name>
+          <relationships>
+            <autoTerminate>false</autoTerminate>
+            <name>success</name>
+          </relationships>
+          <style></style>
+          <type>org.apache.nifi.processors.standard.HandleHttpRequest</type>
+        </processors>
+        <processors>
+          <id>01591004-a16e-163c-0000-000000000000</id>
+          <parentGroupId>b3dc7418-0159-1000-0000-000000000000</parentGroupId>
+          <position>
+            <x>1050.8858521892066</x>
+            <y>134.76762284402383</y>
+          </position>
+          <config>
+            <bulletinLevel>WARN</bulletinLevel>
+            <comments></comments>
+            <concurrentlySchedulableTaskCount>1</concurrentlySchedulableTaskCount>
+            <descriptors>
+              <entry>
+                <key>Destination</key>
+                <value>
+                  <name>Destination</name>
+                </value>
+              </entry>
+              <entry>
+                <key>Return Type</key>
+                <value>
+                  <name>Return Type</name>
+                </value>
+              </entry>
+              <entry>
+                <key>Path Not Found Behavior</key>
+                <value>
+                  <name>Path Not Found Behavior</name>
+                </value>
+              </entry>
+              <entry>
+                <key>Null Value Representation</key>
+                <value>
+                  <name>Null Value Representation</name>
+                </value>
+              </entry>
+              <entry>
+                <key>hmobile.hotel_id</key>
+                <value>
+                  <name>hmobile.hotel_id</name>
+                </value>
+              </entry>
+              <entry>
+                <key>hmobile.room</key>
+                <value>
+                  <name>hmobile.room</name>
+                </value>
+              </entry>
+              <entry>
+                <key>staff_task.creator_user</key>
+                <value>
+                  <name>staff_task.creator_user</name>
+                </value>
+              </entry>
+              <entry>
+                <key>staff_task.data</key>
+                <value>
+                  <name>staff_task.data</name>
+                </value>
+              </entry>
+              <entry>
+                <key>staff_task.modified_by_user</key>
+                <value>
+                  <name>staff_task.modified_by_user</name>
+                </value>
+              </entry>
+              <entry>
+                <key>staff_task.service_data</key>
+                <value>
+                  <name>staff_task.service_data</name>
+                </value>
+              </entry>
+              <entry>
+                <key>staff_task.service_id</key>
+                <value>
+                  <name>staff_task.service_id</name>
+                </value>
+              </entry>
+              <entry>
+                <key>staff_task.service_status</key>
+                <value>
+                  <name>staff_task.service_status</name>
+                </value>
+              </entry>
+              <entry>
+                <key>staff_task.service_tag_list</key>
+                <value>
+                  <name>staff_task.service_tag_list</name>
+                </value>
+              </entry>
+              <entry>
+                <key>staff_task.service_task_id</key>
+                <value>
+                  <name>staff_task.service_task_id</name>
+                </value>
+              </entry>
+            </descriptors>
+            <executionNode>ALL</executionNode>
+            <lossTolerant>false</lossTolerant>
+            <penaltyDuration>30 sec</penaltyDuration>
+            <properties>
+              <entry>
+                <key>Destination</key>
+                <value>flowfile-attribute</value>
+              </entry>
+              <entry>
+                <key>Return Type</key>
+                <value>json</value>
+              </entry>
+              <entry>
+                <key>Path Not Found Behavior</key>
+                <value>ignore</value>
+              </entry>
+              <entry>
+                <key>Null Value Representation</key>
+                <value>empty string</value>
+              </entry>
+              <entry>
+                <key>hmobile.hotel_id</key>
+                <value>$.TASK_STATUS.hotel_id</value>
+              </entry>
+              <entry>
+                <key>hmobile.room</key>
+                <value>$.TASK_STATUS.room</value>
+              </entry>
+              <entry>
+                <key>staff_task.creator_user</key>
+                <value>$.TASK_STATUS.creator_user</value>
+              </entry>
+              <entry>
+                <key>staff_task.data</key>
+                <value>$.TASK_STATUS</value>
+              </entry>
+              <entry>
+                <key>staff_task.modified_by_user</key>
+                <value>$.TASK_STATUS.service_user</value>
+              </entry>
+              <entry>
+                <key>staff_task.service_data</key>
+                <value>$.TASK_STATUS.service_data</value>
+              </entry>
+              <entry>
+                <key>staff_task.service_id</key>
+                <value>$.TASK_STATUS.service_id</value>
+              </entry>
+              <entry>
+                <key>staff_task.service_status</key>
+                <value>$.TASK_STATUS.service_status</value>
+              </entry>
+              <entry>
+                <key>staff_task.service_tag_list</key>
+                <value>$.TASK_STATUS.service_tag_list</value>
+              </entry>
+              <entry>
+                <key>staff_task.service_task_id</key>
+                <value>$.TASK_STATUS.service_task_id</value>
+              </entry>
+            </properties>
+            <runDurationMillis>0</runDurationMillis>
+            <schedulingPeriod>0 sec</schedulingPeriod>
+            <schedulingStrategy>TIMER_DRIVEN</schedulingStrategy>
+            <yieldDuration>1 sec</yieldDuration>
+          </config>
+          <name>Extract StaffTask Info</name>
+          <relationships>
+            <autoTerminate>false</autoTerminate>
+            <name>failure</name>
+          </relationships>
+          <relationships>
+            <autoTerminate>false</autoTerminate>
+            <name>matched</name>
+          </relationships>
+          <relationships>
+            <autoTerminate>false</autoTerminate>
+            <name>unmatched</name>
+          </relationships>
+          <style></style>
+          <type>org.apache.nifi.processors.standard.EvaluateJsonPath</type>
+        </processors>
+        <processors>
+          <id>01591005-a16e-163c-0000-000000000000</id>
+          <parentGroupId>b3dc7418-0159-1000-0000-000000000000</parentGroupId>
+          <position>
+            <x>1039.7317149083588</x>
+            <y>598.0285918999975</y>
+          </position>
+          <config>
+            <bulletinLevel>WARN</bulletinLevel>
+            <comments></comments>
+            <concurrentlySchedulableTaskCount>1</concurrentlySchedulableTaskCount>
+            <descriptors>
+              <entry>
+                <key>HTTP Status Code</key>
+                <value>
+                  <name>HTTP Status Code</name>
+                </value>
+              </entry>
+              <entry>
+                <key>HTTP Context Map</key>
+                <value>
+                  <identifiesControllerService>org.apache.nifi.http.HttpContextMap</identifiesControllerService>
+                  <name>HTTP Context Map</name>
+                </value>
+              </entry>
+            </descriptors>
+            <executionNode>ALL</executionNode>
+            <lossTolerant>false</lossTolerant>
+            <penaltyDuration>30 sec</penaltyDuration>
+            <properties>
+              <entry>
+                <key>HTTP Status Code</key>
+                <value>520</value>
+              </entry>
+              <entry>
+                <key>HTTP Context Map</key>
+                <value>b369d993-48ae-4c0e-0000-000000000000</value>
+              </entry>
+            </properties>
+            <runDurationMillis>0</runDurationMillis>
+            <schedulingPeriod>0 sec</schedulingPeriod>
+            <schedulingStrategy>TIMER_DRIVEN</schedulingStrategy>
+            <yieldDuration>1 sec</yieldDuration>
+          </config>
+          <name>HandleHttpResponse</name>
+          <relationships>
+            <autoTerminate>false</autoTerminate>
+            <name>failure</name>
+          </relationships>
+          <relationships>
+            <autoTerminate>false</autoTerminate>
+            <name>success</name>
+          </relationships>
+          <style></style>
+          <type>org.apache.nifi.processors.standard.HandleHttpResponse</type>
+        </processors>
+        <processors>
+          <id>015a1000-1c08-1d40-0000-000000000000</id>
+          <parentGroupId>b3dc7418-0159-1000-0000-000000000000</parentGroupId>
+          <position>
+            <x>475.552429174708</x>
+            <y>317.3493948034893</y>
+          </position>
+          <config>
+            <bulletinLevel>WARN</bulletinLevel>
+            <comments></comments>
+            <concurrentlySchedulableTaskCount>1</concurrentlySchedulableTaskCount>
+            <descriptors>
+              <entry>
+                <key>Delete Attributes Expression</key>
+                <value>
+                  <name>Delete Attributes Expression</name>
+                </value>
+              </entry>
+              <entry>
+                <key>hmLogging.generator</key>
+                <value>
+                  <name>hmLogging.generator</name>
+                </value>
+              </entry>
+              <entry>
+                <key>hmLogging.IN</key>
+                <value>
+                  <name>hmLogging.IN</name>
+                </value>
+              </entry>
+            </descriptors>
+            <executionNode>ALL</executionNode>
+            <lossTolerant>false</lossTolerant>
+            <penaltyDuration>30 sec</penaltyDuration>
+            <properties>
+              <entry>
+                <key>Delete Attributes Expression</key>
+              </entry>
+              <entry>
+                <key>hmLogging.generator</key>
+                <value>IN.hmstaff.taskStatus</value>
+              </entry>
+              <entry>
+                <key>hmLogging.IN</key>
+                <value>hmstaff.taskStatus source:${http.remote.addr} | payload:${http.request.payload}</value>
+              </entry>
+            </properties>
+            <runDurationMillis>0</runDurationMillis>
+            <schedulingPeriod>0 sec</schedulingPeriod>
+            <schedulingStrategy>TIMER_DRIVEN</schedulingStrategy>
+            <yieldDuration>1 sec</yieldDuration>
+          </config>
+          <name>Add IN LoggingInfo</name>
+          <relationships>
+            <autoTerminate>false</autoTerminate>
+            <name>success</name>
+          </relationships>
+          <style></style>
+          <type>org.apache.nifi.processors.attributes.UpdateAttribute</type>
+        </processors>
+        <processors>
+          <id>015a1000-7cb9-1d4e-0000-000000000000</id>
+          <parentGroupId>b3dc7418-0159-1000-0000-000000000000</parentGroupId>
+          <position>
+            <x>2959.125616865106</x>
+            <y>640.8626350729135</y>
+          </position>
+          <config>
+            <bulletinLevel>WARN</bulletinLevel>
+            <comments></comments>
+            <concurrentlySchedulableTaskCount>1</concurrentlySchedulableTaskCount>
+            <descriptors>
+              <entry>
+                <key>Character Set</key>
+                <value>
+                  <name>Character Set</name>
+                </value>
+              </entry>
+              <entry>
+                <key>Maximum Buffer Size</key>
+                <value>
+                  <name>Maximum Buffer Size</name>
+                </value>
+              </entry>
+              <entry>
+                <key>Maximum Capture Group Length</key>
+                <value>
+                  <name>Maximum Capture Group Length</name>
+                </value>
+              </entry>
+              <entry>
+                <key>Enable Canonical Equivalence</key>
+                <value>
+                  <name>Enable Canonical Equivalence</name>
+                </value>
+              </entry>
+              <entry>
+                <key>Enable Case-insensitive Matching</key>
+                <value>
+                  <name>Enable Case-insensitive Matching</name>
+                </value>
+              </entry>
+              <entry>
+                <key>Permit Whitespace and Comments in Pattern</key>
+                <value>
+                  <name>Permit Whitespace and Comments in Pattern</name>
+                </value>
+              </entry>
+              <entry>
+                <key>Enable DOTALL Mode</key>
+                <value>
+                  <name>Enable DOTALL Mode</name>
+                </value>
+              </entry>
+              <entry>
+                <key>Enable Literal Parsing of the Pattern</key>
+                <value>
+                  <name>Enable Literal Parsing of the Pattern</name>
+                </value>
+              </entry>
+              <entry>
+                <key>Enable Multiline Mode</key>
+                <value>
+                  <name>Enable Multiline Mode</name>
+                </value>
+              </entry>
+              <entry>
+                <key>Enable Unicode-aware Case Folding</key>
+                <value>
+                  <name>Enable Unicode-aware Case Folding</name>
+                </value>
+              </entry>
+              <entry>
+                <key>Enable Unicode Predefined Character Classes</key>
+                <value>
+                  <name>Enable Unicode Predefined Character Classes</name>
+                </value>
+              </entry>
+              <entry>
+                <key>Enable Unix Lines Mode</key>
+                <value>
+                  <name>Enable Unix Lines Mode</name>
+                </value>
+              </entry>
+              <entry>
+                <key>Include Capture Group 0</key>
+                <value>
+                  <name>Include Capture Group 0</name>
+                </value>
+              </entry>
+              <entry>
+                <key>extract-text-enable-repeating-capture-group</key>
+                <value>
+                  <name>extract-text-enable-repeating-capture-group</name>
+                </value>
+              </entry>
+              <entry>
+                <key>http.response.payload</key>
+                <value>
+                  <name>http.response.payload</name>
+                </value>
+              </entry>
+            </descriptors>
+            <executionNode>ALL</executionNode>
+            <lossTolerant>false</lossTolerant>
+            <penaltyDuration>30 sec</penaltyDuration>
+            <properties>
+              <entry>
+                <key>Character Set</key>
+                <value>UTF-8</value>
+              </entry>
+              <entry>
+                <key>Maximum Buffer Size</key>
+                <value>1 MB</value>
+              </entry>
+              <entry>
+                <key>Maximum Capture Group Length</key>
+                <value>1024</value>
+              </entry>
+              <entry>
+                <key>Enable Canonical Equivalence</key>
+                <value>false</value>
+              </entry>
+              <entry>
+                <key>Enable Case-insensitive Matching</key>
+                <value>false</value>
+              </entry>
+              <entry>
+                <key>Permit Whitespace and Comments in Pattern</key>
+                <value>false</value>
+              </entry>
+              <entry>
+                <key>Enable DOTALL Mode</key>
+                <value>true</value>
+              </entry>
+              <entry>
+                <key>Enable Literal Parsing of the Pattern</key>
+                <value>false</value>
+              </entry>
+              <entry>
+                <key>Enable Multiline Mode</key>
+                <value>false</value>
+              </entry>
+              <entry>
+                <key>Enable Unicode-aware Case Folding</key>
+                <value>false</value>
+              </entry>
+              <entry>
+                <key>Enable Unicode Predefined Character Classes</key>
+                <value>false</value>
+              </entry>
+              <entry>
+                <key>Enable Unix Lines Mode</key>
+                <value>false</value>
+              </entry>
+              <entry>
+                <key>Include Capture Group 0</key>
+                <value>true</value>
+              </entry>
+              <entry>
+                <key>extract-text-enable-repeating-capture-group</key>
+                <value>false</value>
+              </entry>
+              <entry>
+                <key>http.response.payload</key>
+                <value>(.*)</value>
+              </entry>
+            </properties>
+            <runDurationMillis>0</runDurationMillis>
+            <schedulingPeriod>0 sec</schedulingPeriod>
+            <schedulingStrategy>TIMER_DRIVEN</schedulingStrategy>
+            <yieldDuration>1 sec</yieldDuration>
+          </config>
+          <name>Extract Full Payload To Attribute</name>
+          <relationships>
+            <autoTerminate>false</autoTerminate>
+            <name>matched</name>
+          </relationships>
+          <relationships>
+            <autoTerminate>false</autoTerminate>
+            <name>unmatched</name>
+          </relationships>
+          <style></style>
+          <type>org.apache.nifi.processors.standard.ExtractText</type>
+        </processors>
+        <processors>
+          <id>10261159-1165-1a4b-0000-000000000000</id>
+          <parentGroupId>b3dc7418-0159-1000-0000-000000000000</parentGroupId>
+          <position>
+            <x>1747.063044530178</x>
+            <y>147.24732741543113</y>
+          </position>
+          <config>
+            <bulletinLevel>WARN</bulletinLevel>
+            <comments></comments>
+            <concurrentlySchedulableTaskCount>1</concurrentlySchedulableTaskCount>
+            <descriptors>
+              <entry>
+                <key>Routing Strategy</key>
+                <value>
+                  <name>Routing Strategy</name>
+                </value>
+              </entry>
+              <entry>
+                <key>error.no_creator_user</key>
+                <value>
+                  <name>error.no_creator_user</name>
+                </value>
+              </entry>
+              <entry>
+                <key>error.no_data</key>
+                <value>
+                  <name>error.no_data</name>
+                </value>
+              </entry>
+              <entry>
+                <key>error.no_hotel_id</key>
+                <value>
+                  <name>error.no_hotel_id</name>
+                </value>
+              </entry>
+              <entry>
+                <key>error.no_room</key>
+                <value>
+                  <name>error.no_room</name>
+                </value>
+              </entry>
+            </descriptors>
+            <executionNode>ALL</executionNode>
+            <lossTolerant>false</lossTolerant>
+            <penaltyDuration>30 sec</penaltyDuration>
+            <properties>
+              <entry>
+                <key>Routing Strategy</key>
+                <value>Route to Property name</value>
+              </entry>
+              <entry>
+                <key>error.no_creator_user</key>
+                <value>${staff_task.creator_user:isNull():or( ${staff_task.creator_user:length():equals(0)} )}</value>
+              </entry>
+              <entry>
+                <key>error.no_data</key>
+                <value>${staff_task.data:isNull():or( ${staff_task.data:length():equals(0)} )}</value>
+              </entry>
+              <entry>
+                <key>error.no_hotel_id</key>
+                <value>${hmobile.hotel_id:isNull():or( ${hmobile.hotel_id:length():equals(0)} )}</value>
+              </entry>
+              <entry>
+                <key>error.no_room</key>
+                <value>${hmobile.room:isNull():or( ${hmobile.room:length():equals(0)} )}</value>
+              </entry>
+            </properties>
+            <runDurationMillis>0</runDurationMillis>
+            <schedulingPeriod>0 sec</schedulingPeriod>
+            <schedulingStrategy>TIMER_DRIVEN</schedulingStrategy>
+            <yieldDuration>1 sec</yieldDuration>
+          </config>
+          <name>Check Required StaffTask Info</name>
+          <relationships>
+            <autoTerminate>false</autoTerminate>
+            <name>error.no_creator_user</name>
+          </relationships>
+          <relationships>
+            <autoTerminate>false</autoTerminate>
+            <name>error.no_data</name>
+          </relationships>
+          <relationships>
+            <autoTerminate>false</autoTerminate>
+            <name>error.no_hotel_id</name>
+          </relationships>
+          <relationships>
+            <autoTerminate>false</autoTerminate>
+            <name>error.no_room</name>
+          </relationships>
+          <relationships>
+            <autoTerminate>false</autoTerminate>
+            <name>unmatched</name>
+          </relationships>
+          <style></style>
+          <type>org.apache.nifi.processors.standard.RouteOnAttribute</type>
+        </processors>
+        <processors>
+          <id>10261159-1167-1a4b-0000-000000000000</id>
+          <parentGroupId>b3dc7418-0159-1000-0000-000000000000</parentGroupId>
+          <position>
+            <x>2959.3964546862176</x>
+            <y>378.74121663622054</y>
+          </position>
+          <config>
+            <bulletinLevel>WARN</bulletinLevel>
+            <comments></comments>
+            <concurrentlySchedulableTaskCount>1</concurrentlySchedulableTaskCount>
+            <descriptors>
+              <entry>
+                <key>HTTP Status Code</key>
+                <value>
+                  <name>HTTP Status Code</name>
+                </value>
+              </entry>
+              <entry>
+                <key>HTTP Context Map</key>
+                <value>
+                  <identifiesControllerService>org.apache.nifi.http.HttpContextMap</identifiesControllerService>
+                  <name>HTTP Context Map</name>
+                </value>
+              </entry>
+            </descriptors>
+            <executionNode>ALL</executionNode>
+            <lossTolerant>false</lossTolerant>
+            <penaltyDuration>30 sec</penaltyDuration>
+            <properties>
+              <entry>
+                <key>HTTP Status Code</key>
+                <value>200</value>
+              </entry>
+              <entry>
+                <key>HTTP Context Map</key>
+                <value>b369d993-48ae-4c0e-0000-000000000000</value>
+              </entry>
+            </properties>
+            <runDurationMillis>0</runDurationMillis>
+            <schedulingPeriod>0 sec</schedulingPeriod>
+            <schedulingStrategy>TIMER_DRIVEN</schedulingStrategy>
+            <yieldDuration>1 sec</yieldDuration>
+          </config>
+          <name>HandleHttpResponse</name>
+          <relationships>
+            <autoTerminate>false</autoTerminate>
+            <name>failure</name>
+          </relationships>
+          <relationships>
+            <autoTerminate>false</autoTerminate>
+            <name>success</name>
+          </relationships>
+          <style></style>
+          <type>org.apache.nifi.processors.standard.HandleHttpResponse</type>
+        </processors>
+        <processors>
+          <id>10261159-116b-1a4b-0000-000000000000</id>
+          <parentGroupId>b3dc7418-0159-1000-0000-000000000000</parentGroupId>
+          <position>
+            <x>1761.2443287806718</x>
+            <y>346.9022449335495</y>
+          </position>
+          <config>
+            <bulletinLevel>WARN</bulletinLevel>
+            <comments></comments>
+            <concurrentlySchedulableTaskCount>1</concurrentlySchedulableTaskCount>
+            <descriptors>
+              <entry>
+                <key>Regular Expression</key>
+                <value>
+                  <name>Regular Expression</name>
+                </value>
+              </entry>
+              <entry>
+                <key>Replacement Value</key>
+                <value>
+                  <name>Replacement Value</name>
+                </value>
+              </entry>
+              <entry>
+                <key>Character Set</key>
+                <value>
+                  <name>Character Set</name>
+                </value>
+              </entry>
+              <entry>
+                <key>Maximum Buffer Size</key>
+                <value>
+                  <name>Maximum Buffer Size</name>
+                </value>
+              </entry>
+              <entry>
+                <key>Replacement Strategy</key>
+                <value>
+                  <name>Replacement Strategy</name>
+                </value>
+              </entry>
+              <entry>
+                <key>Evaluation Mode</key>
+                <value>
+                  <name>Evaluation Mode</name>
+                </value>
+              </entry>
+            </descriptors>
+            <executionNode>ALL</executionNode>
+            <lossTolerant>false</lossTolerant>
+            <penaltyDuration>30 sec</penaltyDuration>
+            <properties>
+              <entry>
+                <key>Regular Expression</key>
+                <value>(?s)(^.*$)</value>
+              </entry>
+              <entry>
+                <key>Replacement Value</key>
+                <value>{ "action_result": { "result": { "code": "-1", "description": "${RouteOnAttribute.Route}" } }}</value>
+              </entry>
+              <entry>
+                <key>Character Set</key>
+                <value>UTF-8</value>
+              </entry>
+              <entry>
+                <key>Maximum Buffer Size</key>
+                <value>1 MB</value>
+              </entry>
+              <entry>
+                <key>Replacement Strategy</key>
+                <value>Always Replace</value>
+              </entry>
+              <entry>
+                <key>Evaluation Mode</key>
+                <value>Entire text</value>
+              </entry>
+            </properties>
+            <runDurationMillis>0</runDurationMillis>
+            <schedulingPeriod>0 sec</schedulingPeriod>
+            <schedulingStrategy>TIMER_DRIVEN</schedulingStrategy>
+            <yieldDuration>1 sec</yieldDuration>
+          </config>
+          <name>Generate HTTP Result ERROR Payload</name>
+          <relationships>
+            <autoTerminate>false</autoTerminate>
+            <name>failure</name>
+          </relationships>
+          <relationships>
+            <autoTerminate>false</autoTerminate>
+            <name>success</name>
+          </relationships>
+          <style></style>
+          <type>org.apache.nifi.processors.standard.ReplaceText</type>
+        </processors>
+        <processors>
+          <id>2d401c08-015a-1000-0000-000000000000</id>
+          <parentGroupId>b3dc7418-0159-1000-0000-000000000000</parentGroupId>
+          <position>
+            <x>2954.398099142446</x>
+            <y>850.29570032238</y>
+          </position>
+          <config>
+            <bulletinLevel>WARN</bulletinLevel>
+            <comments></comments>
+            <concurrentlySchedulableTaskCount>1</concurrentlySchedulableTaskCount>
+            <descriptors>
+              <entry>
+                <key>Delete Attributes Expression</key>
+                <value>
+                  <name>Delete Attributes Expression</name>
+                </value>
+              </entry>
+              <entry>
+                <key>hmLogging.OUT</key>
+                <value>
+                  <name>hmLogging.OUT</name>
+                </value>
+              </entry>
+            </descriptors>
+            <executionNode>ALL</executionNode>
+            <lossTolerant>false</lossTolerant>
+            <penaltyDuration>30 sec</penaltyDuration>
+            <properties>
+              <entry>
+                <key>Delete Attributes Expression</key>
+              </entry>
+              <entry>
+                <key>hmLogging.OUT</key>
+                <value>dest:${http.remote.addr} | response:${http.response.payload}</value>
+              </entry>
+            </properties>
+            <runDurationMillis>0</runDurationMillis>
+            <schedulingPeriod>0 sec</schedulingPeriod>
+            <schedulingStrategy>TIMER_DRIVEN</schedulingStrategy>
+            <yieldDuration>1 sec</yieldDuration>
+          </config>
+          <name>Add OUT LoggingInfo</name>
+          <relationships>
+            <autoTerminate>false</autoTerminate>
+            <name>success</name>
+          </relationships>
+          <style></style>
+          <type>org.apache.nifi.processors.attributes.UpdateAttribute</type>
+        </processors>
+        <processors>
+          <id>2d4e7cb9-015a-1000-0000-000000000000</id>
+          <parentGroupId>b3dc7418-0159-1000-0000-000000000000</parentGroupId>
+          <position>
+            <x>471.86128634033867</x>
+            <y>117.96748851930442</y>
+          </position>
+          <config>
+            <bulletinLevel>WARN</bulletinLevel>
+            <comments></comments>
+            <concurrentlySchedulableTaskCount>1</concurrentlySchedulableTaskCount>
+            <descriptors>
+              <entry>
+                <key>Character Set</key>
+                <value>
+                  <name>Character Set</name>
+                </value>
+              </entry>
+              <entry>
+                <key>Maximum Buffer Size</key>
+                <value>
+                  <name>Maximum Buffer Size</name>
+                </value>
+              </entry>
+              <entry>
+                <key>Maximum Capture Group Length</key>
+                <value>
+                  <name>Maximum Capture Group Length</name>
+                </value>
+              </entry>
+              <entry>
+                <key>Enable Canonical Equivalence</key>
+                <value>
+                  <name>Enable Canonical Equivalence</name>
+                </value>
+              </entry>
+              <entry>
+                <key>Enable Case-insensitive Matching</key>
+                <value>
+                  <name>Enable Case-insensitive Matching</name>
+                </value>
+              </entry>
+              <entry>
+                <key>Permit Whitespace and Comments in Pattern</key>
+                <value>
+                  <name>Permit Whitespace and Comments in Pattern</name>
+                </value>
+              </entry>
+              <entry>
+                <key>Enable DOTALL Mode</key>
+                <value>
+                  <name>Enable DOTALL Mode</name>
+                </value>
+              </entry>
+              <entry>
+                <key>Enable Literal Parsing of the Pattern</key>
+                <value>
+                  <name>Enable Literal Parsing of the Pattern</name>
+                </value>
+              </entry>
+              <entry>
+                <key>Enable Multiline Mode</key>
+                <value>
+                  <name>Enable Multiline Mode</name>
+                </value>
+              </entry>
+              <entry>
+                <key>Enable Unicode-aware Case Folding</key>
+                <value>
+                  <name>Enable Unicode-aware Case Folding</name>
+                </value>
+              </entry>
+              <entry>
+                <key>Enable Unicode Predefined Character Classes</key>
+                <value>
+                  <name>Enable Unicode Predefined Character Classes</name>
+                </value>
+              </entry>
+              <entry>
+                <key>Enable Unix Lines Mode</key>
+                <value>
+                  <name>Enable Unix Lines Mode</name>
+                </value>
+              </entry>
+              <entry>
+                <key>Include Capture Group 0</key>
+                <value>
+                  <name>Include Capture Group 0</name>
+                </value>
+              </entry>
+              <entry>
+                <key>extract-text-enable-repeating-capture-group</key>
+                <value>
+                  <name>extract-text-enable-repeating-capture-group</name>
+                </value>
+              </entry>
+              <entry>
+                <key>http.request.payload</key>
+                <value>
+                  <name>http.request.payload</name>
+                </value>
+              </entry>
+            </descriptors>
+            <executionNode>ALL</executionNode>
+            <lossTolerant>false</lossTolerant>
+            <penaltyDuration>30 sec</penaltyDuration>
+            <properties>
+              <entry>
+                <key>Character Set</key>
+                <value>UTF-8</value>
+              </entry>
+              <entry>
+                <key>Maximum Buffer Size</key>
+                <value>1 MB</value>
+              </entry>
+              <entry>
+                <key>Maximum Capture Group Length</key>
+                <value>1024</value>
+              </entry>
+              <entry>
+                <key>Enable Canonical Equivalence</key>
+                <value>false</value>
+              </entry>
+              <entry>
+                <key>Enable Case-insensitive Matching</key>
+                <value>false</value>
+              </entry>
+              <entry>
+                <key>Permit Whitespace and Comments in Pattern</key>
+                <value>false</value>
+              </entry>
+              <entry>
+                <key>Enable DOTALL Mode</key>
+                <value>true</value>
+              </entry>
+              <entry>
+                <key>Enable Literal Parsing of the Pattern</key>
+                <value>false</value>
+              </entry>
+              <entry>
+                <key>Enable Multiline Mode</key>
+                <value>false</value>
+              </entry>
+              <entry>
+                <key>Enable Unicode-aware Case Folding</key>
+                <value>false</value>
+              </entry>
+              <entry>
+                <key>Enable Unicode Predefined Character Classes</key>
+                <value>false</value>
+              </entry>
+              <entry>
+                <key>Enable Unix Lines Mode</key>
+                <value>false</value>
+              </entry>
+              <entry>
+                <key>Include Capture Group 0</key>
+                <value>true</value>
+              </entry>
+              <entry>
+                <key>extract-text-enable-repeating-capture-group</key>
+                <value>false</value>
+              </entry>
+              <entry>
+                <key>http.request.payload</key>
+                <value>(.*)</value>
+              </entry>
+            </properties>
+            <runDurationMillis>0</runDurationMillis>
+            <schedulingPeriod>0 sec</schedulingPeriod>
+            <schedulingStrategy>TIMER_DRIVEN</schedulingStrategy>
+            <yieldDuration>1 sec</yieldDuration>
+          </config>
+          <name>Extract Full Payload To Attribute</name>
+          <relationships>
+            <autoTerminate>false</autoTerminate>
+            <name>matched</name>
+          </relationships>
+          <relationships>
+            <autoTerminate>false</autoTerminate>
+            <name>unmatched</name>
+          </relationships>
+          <style></style>
+          <type>org.apache.nifi.processors.standard.ExtractText</type>
+        </processors>
+      </contents>
+      <name>IN.hmStaff.taskStatus v1.0.5</name>
+    </processGroups>
+  </snippet>
+  <timestamp>03/28/2017 17:52:33 CEST</timestamp>
+</template>

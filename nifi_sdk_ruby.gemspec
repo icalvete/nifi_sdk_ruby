@@ -23,6 +23,7 @@ Gem::Specification.new do |gem|
   gem.add_dependency 'httparty', '>= 0.14.0'
   gem.add_dependency 'curb', '>= 0.9.3'
   gem.add_dependency 'json', '>= 1.8.3'
+  gem.add_dependency 'activesupport', '>= 5.0.2'
 
   gem.add_development_dependency "bundler", "~> 1.14"
   gem.add_development_dependency "rake", "~> 10.0"
