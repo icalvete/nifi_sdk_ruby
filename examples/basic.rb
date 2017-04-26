@@ -3,10 +3,10 @@ require 'pp'
 require '../lib/nifi_sdk_ruby'
 
 nifi_client = Nifi.new()
-nifi_client.set_debug(true)
+nifi_client.set_debug true
 
 # Get the ID of Root Process Group
-pg_root = nifi_client.get_process_group()
+pg_root = nifi_client.get_process_group
 puts "\n"
 puts "PG Root's ID"
 puts "\n"
@@ -37,10 +37,9 @@ puts "\n"
 # Delete some Process Group
 puts 'Delete PG with id ' + new_pg['id']
 puts "\n"
-puts nifi_client.delete_process_group(new_pg['id'])
+puts nifi_client.delete_process_group new_pg['id']
 puts "\n"
 
 # Upload a template to Root Process Group 
-puts 'Upload templete to Root PG'
+puts 'Upload template to Root PG'
 puts nifi_client.upload_template(:path => 'IN.hmStaff.taskStatus.xml')
-

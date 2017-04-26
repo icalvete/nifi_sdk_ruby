@@ -30,42 +30,81 @@ Or install it yourself as:
 require 'nifi_sdk_ruby'
 
 nifi_client = Nifi.new()
-nifi_client.set_debug(true)
+nifi_client.set_debug true
 
 ```
 
-### Get root id
+### Get Root's Process Group id
 
 ```ruby
 # Get Root Process Group
-pg_root = nifi_client.get_process_group()
+pg_root = nifi_client.get_process_group
 puts "PG Root's ID"
 puts pg_root['id']
 ```
 
-### Create new PG
+### Create new Process Group
 
 ```ruby
 new_pg = nifi_client.create_process_group(:name => 'test')
 puts new_pg
 ```
 
-### Get all attrs of the Process Group with ID 9c3ebb60-015b-1000-1027-b27d47832152 (PG Root's child)
+### Check if Process Group exists
+
+```ruby
+puts nifi_client.process_group_by_name? test
+```
+
+### Get all attrs a the Process Group by ID (PG Root's child)
 
 ```ruby
 puts  nifi_client.get_process_group(:id => new_pg['id'])
 ```
 
-### Delete some PG
+### Get all attrs a the Process Group by Name (Root's childs)
+
+```ruby
+puts nifi_client.get_process_group_by_name 'test'
+```
+
+### Delete some Process Group
 
 ```ruby
 puts nifi_client.delete_process_group(new_pg['id'])
 ```
 
-# Upload a template to Root PG
+### Upload a template to Root Process Group
+
+From file ...
 
 ```ruby
 puts nifi_client.upload_template(:path => 'IN.hmStaff.taskStatus.xml')
+```
+
+From url ...
+
+```ruby
+puts nifi_client.upload_template(:path => 'https://your.domain.net/IN.hmStaff.taskStatus.xml')
+```
+
+### Check if Process Group exists
+
+```ruby
+puts nifi_client.template_by_name? test
+```
+
+
+### Get all attrs of a template by Name (Root's childs)
+
+```ruby
+t = nifi_client.get_template_group_by_name 'test'
+puts t
+```
+
+### Delete template
+```ruby
+puts nifi_client.delete_template t['id']
 ```
 
 ## Contributing

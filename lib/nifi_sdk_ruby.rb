@@ -7,6 +7,8 @@ require 'curb'
 require 'json'
 require 'securerandom'
 require 'active_support/all'
+require 'open-uri'
+require 'nokogiri'
 
 class Nifi
 
@@ -107,6 +109,10 @@ class Nifi
       abort 'name params is mandatory.'
     end
 
+    if self.process_group_by_name? args[:name]
+      abort 'The process group ' + args[:name] + ' already exists'
+    end
+
     params = '{"revision":{"clientId":"' + @@client_id + '","version":0},"component":{"name":"' + args[:name] + '","position":{"x":274.54776144527517,"y":-28.886681059739686}}}'
 
     process_group = args[:id] ? args[:id] : 'root'
@@ -124,18 +130,68 @@ class Nifi
     self.class.http_client(base_url, 'DELETE')
   end
 
+  def get_process_group_by_name(name = nil)
+
+    if name.nil?
+      abort 'name is mandatory.'
+    end
+
+    res = self.class.exists
+
+    pg = res.select do |r|
+      r['name'] == name and r['identifier'] =~ /process-groups/
+    end
+
+    if pg.count == 1
+      self.class.get pg[0]['identifier']
+    else
+      abort 'Unable to locate group with name ' + name
+    end
+  end
+
+  def process_group_by_name?(name = nil)
+
+    if name.nil?
+      abort 'name is mandatory.'
+    end
+
+    res = self.class.exists
+
+    pg = res.select do |r|
+      r['name'] == name and r['identifier'] =~ /process-groups/
+    end
+
+    pg.count == 1 ? true : false
+  end
+
   def upload_template(*args)
 
     args = args.reduce Hash.new, :merge
-    
+
     if args[:path].nil?
       abort 'path params is mandatory.'
     end
     path = args[:path]
 
+    if path =~ URI::regexp
+
+      download_s = open(path)
+      download_t = "/tmp/#{download_s.base_uri.to_s.split('/')[-1]}"
+      IO.copy_stream(download_s, download_t)
+      path = download_t
+    end
+
     if not File.file? path or not File.readable? path
       abort "Access to #{path} failed"
     end
+
+    t = File.open(path) { |f| Nokogiri::XML(f) }
+    name = t.xpath('//template/name').text
+
+    if self.template_by_name? name
+      abort 'The template ' + name + ' already exists'
+    end
+
     params = Array.new
     params << Curl::PostField.file('template', path)
 
@@ -147,7 +203,65 @@ class Nifi
     return res['templateEntity']['template']
   end
 
+  def delete_template(id = nil)
+
+    if id.nil?
+      abort 'id is mandatory.'
+    end
+
+    base_url = @@base_url + '/templates/' + id
+    self.class.http_client(base_url, 'DELETE')
+  end
+
+  def get_template_by_name(name = nil)
+
+    if name.nil?
+      abort 'name is mandatory.'
+    end
+
+    res = self.class.exists
+
+    t = res.select do |r|
+      r['name'] == name and r['identifier'] =~ /templates/
+    end
+
+
+    if t.count == 1
+      t[0]['identifier'].scan(/\/templates\/(.*)/)
+    else
+      abort 'Unable to locate template with name ' + name
+    end
+
+  end
+
+  def template_by_name?(name = nil)
+
+    if name.nil?
+      abort 'name is mandatory.'
+    end
+
+    res = self.class.exists
+
+    pg = res.select do |r|
+      r['name'] == name and r['identifier'] =~ /templates/
+    end
+
+    pg.count == 1 ? true : false
+  end
+
   private
+
+  def self.exists
+    base_url = @@base_url + "/resources"
+    res = self.http_client(base_url)
+
+    return res['resources']
+  end
+
+  def self.get(resource)
+    base_url = @@base_url + resource
+    self.http_client(base_url)
+  end
 
   def self.http_client(url, method = 'GET', params = nil, filename = nil)
     c = Curl::Easy.new
