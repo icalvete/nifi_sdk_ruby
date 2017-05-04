@@ -50,7 +50,7 @@ class Nifi
     end
 
     if !(!!debug == debug)
-      abort 'debug msut be a boolean'
+      abort 'debug must be a boolean'
     end
 
     @@debug = debug
@@ -66,7 +66,7 @@ class Nifi
     end
 
     if !(!!async == async)
-      abort 'async msut be a boolean'
+      abort 'async must be a boolean'
     end
 
     @@async = async
@@ -149,6 +149,45 @@ class Nifi
     end
   end
 
+  def get_process(id = nil)
+    if id.nil?
+      abort 'id is mandatory.'
+    end
+
+    url = @@base_url + '/processors/' + id
+    self.class.http_client(url)
+  end
+
+  def start_process(*args)
+    args = args.reduce Hash.new, :merge
+    if args[:id].nil? or args[:version].nil?
+      abort 'id and version params are mandatory'
+    end
+
+    id = args[:id]
+    version = args[:version]
+
+    params = '{"revision":{"version":'+ version +'},"id":"'+ id +'","component":{"id":"'+ id +
+        '","state":"RUNNING"},"status":{"runStatus":"Running"}}'
+    base_url = @@base_url + '/processors/' + id
+    self.class.http_client(base_url, 'PUT', params)
+  end
+
+  def stop_process(*args)
+    args = args.reduce Hash.new, :merge
+    if args[:id].nil? or args[:version].nil?
+      abort 'id and version params are mandatory'
+    end
+
+    id = args[:id]
+    version = args[:version]
+
+    params = '{"revision":{"version":'+ version +'},"id":"'+ id +'","component":{"id":"'+ id +
+        '","state":"STOPPED"},"status":{"runStatus": "Stopped"}}'
+    base_url = @@base_url + '/processors/' + id
+    self.class.http_client(base_url, 'PUT', params)
+  end
+
   def process_group_by_name?(name = nil)
 
     if name.nil?
@@ -162,6 +201,29 @@ class Nifi
     end
 
     pg.count == 1 ? true : false
+  end
+
+  def create_template_instance(*args)
+    args = args.reduce Hash.new, :merge
+
+    if args[:id].nil? and args[:name].nil?
+      abort 'either specify id of the template or it\'s name '
+    end
+
+    if args[:name]
+      abort "Could not find template called #{args[:name]}" unless template_by_name?(args[:name])
+      id = get_template_by_name(args[:name])[0][0]
+    else
+      abort "Could not find template with id #{args[:id]}" unless template_by_id?(args[:id])
+      id = args[:id]
+    end
+
+    originX = args[:originX] ? args[:originX] : '0.0'
+    originY = args[:originY] ? args[:originY] : '0.0'
+    process_group = args[:process_group_id] ? args[:process_group_id] : 'root'
+    params = '{"templateId": "'+ id +'", "originX": '+ originX +', "originY": '+ originY +'}'
+    base_url = @@base_url + "/process-groups/#{process_group}/template-instance"
+    self.class.http_client(base_url, 'POSTRAW', params)
   end
 
   def upload_template(*args)
@@ -249,6 +311,21 @@ class Nifi
     pg.count == 1 ? true : false
   end
 
+  def template_by_id?(id = nil)
+
+    if id.nil?
+      abort 'id is mandatory.'
+    end
+
+    res = self.class.exists
+
+    pg = res.select do |r|
+      r['identifier'] == "/templates/#{id}"
+    end
+
+    pg.count == 1 ? true : false
+  end
+
   private
 
   def self.exists
@@ -285,6 +362,7 @@ class Nifi
         c.multipart_form_post = true
         c.post(params)
       when 'PUT'
+        c.headers['Content-Type'] = 'application/json'
         c.put(params)
       when 'DELETE'
         c.delete
@@ -305,3 +383,4 @@ class Nifi
     end
   end
 end
+

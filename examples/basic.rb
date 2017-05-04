@@ -1,6 +1,6 @@
 require 'pp'
 
-require '../lib/nifi_sdk_ruby'
+require_relative '../lib/nifi_sdk_ruby'
 
 nifi_client = Nifi.new()
 nifi_client.set_debug true
@@ -40,6 +40,6 @@ puts "\n"
 puts nifi_client.delete_process_group new_pg['id']
 puts "\n"
 
-# Upload a template to Root Process Group 
+# Upload a template to Root Process Group
 puts 'Upload template to Root PG'
 puts nifi_client.upload_template(:path => 'IN.hmStaff.taskStatus.xml')
