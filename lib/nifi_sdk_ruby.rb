@@ -126,7 +126,7 @@ class Nifi
       abort 'id is mandatory.'
     end
 
-    base_url = @@base_url + '/process-groups/' + id + '?clientId=' + @@client_id + '&version=1'
+    base_url = @@base_url + '/process-groups/' + id.to_s + '?clientId=' + @@client_id + '&version=1'
     self.class.http_client(base_url, 'DELETE')
   end
 
@@ -167,7 +167,7 @@ class Nifi
     id = args[:id]
     version = args[:version]
 
-    params = '{"revision":{"version":'+ version +'},"id":"'+ id +'","component":{"id":"'+ id +
+    params = '{"revision":{"version":'+ version +'},"id":"'+ id.to_s +'","component":{"id":"'+ id.to_s +
         '","state":"RUNNING"},"status":{"runStatus":"Running"}}'
     base_url = @@base_url + '/processors/' + id
     self.class.http_client(base_url, 'PUT', params)
@@ -182,7 +182,7 @@ class Nifi
     id = args[:id]
     version = args[:version]
 
-    params = '{"revision":{"version":'+ version +'},"id":"'+ id +'","component":{"id":"'+ id +
+    params = '{"revision":{"version":'+ version +'},"id":"'+ id.to_s +'","component":{"id":"'+ id.to_s +
         '","state":"STOPPED"},"status":{"runStatus": "Stopped"}}'
     base_url = @@base_url + '/processors/' + id
     self.class.http_client(base_url, 'PUT', params)
@@ -221,7 +221,7 @@ class Nifi
     originX = args[:originX] ? args[:originX] : '0.0'
     originY = args[:originY] ? args[:originY] : '0.0'
     process_group = args[:process_group_id] ? args[:process_group_id] : 'root'
-    params = '{"templateId": "'+ id +'", "originX": '+ originX +', "originY": '+ originY +'}'
+    params = '{"templateId": "'+ id.to_s +'", "originX": '+ originX +', "originY": '+ originY +'}'
     base_url = @@base_url + "/process-groups/#{process_group}/template-instance"
     self.class.http_client(base_url, 'POSTRAW', params)
   end
