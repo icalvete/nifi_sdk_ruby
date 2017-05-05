@@ -36,7 +36,7 @@ class Nifi
     @@schema      = args[:schema] ? args[:schema] : DEFAULT_SCHEMA
     @@host        = args[:host] ? args[:host] : DEFAULT_HOST
     @@port        = args[:port] ? args[:port] : DEFAULT_PORT
-    @@base_url    = @@schema << '://' << @@host << ':' << @@port << '/nifi-api'
+    @@base_url    = @@schema + '://' + @@host + ':' + @@port + '/nifi-api'
     @@debug       = DEFAULT_DEBUG
     @@async       = DEFAULT_ACYNC
     @@sdk_name    = 'ruby'
@@ -89,14 +89,14 @@ class Nifi
   end
 
   def get_base_url
-   	@@base_url
+    @@base_url
   end
 
   def get_process_group(id = nil)
 
     process_group = id ? id : 'root'
 
-    base_url = @@base_url << '/process-groups/' << process_group
+    base_url = @@base_url + '/process-groups/' << process_group
     self.class.http_client(base_url)
   end
 
@@ -115,7 +115,7 @@ class Nifi
         '","position":{"x":274.54776144527517,"y":-28.886681059739686}}}'
 
     process_group = args[:id] ? args[:id] : 'root'
-    base_url = @@base_url << '/process-groups/' << process_group << '/process-groups'
+    base_url = @@base_url + '/process-groups/' << process_group << '/process-groups'
     self.class.http_client(base_url, 'POSTRAW', params)
   end
 
@@ -125,7 +125,7 @@ class Nifi
       raise ArgumentError.new('id is mandatory.')
     end
 
-    base_url = @@base_url << '/process-groups/' << id << '?clientId=' << @@client_id << '&version=1'
+    base_url = @@base_url + '/process-groups/' << id << '?clientId=' << @@client_id << '&version=1'
     self.class.http_client(base_url, 'DELETE')
   end
 
@@ -153,7 +153,7 @@ class Nifi
       raise ArgumentError.new('id is mandatory.')
     end
 
-    url = @@base_url << '/processors/' << id
+    url = @@base_url + '/processors/' << id
     self.class.http_client(url)
   end
 
@@ -168,7 +168,7 @@ class Nifi
 
     params = '{"revision":{"version":' << version << '},"id":"' << id << '","component":{"id":"' << id <<
         '","state":"RUNNING"},"status":{"runStatus":"Running"}}'
-    base_url = @@base_url << '/processors/' << id
+    base_url = @@base_url + '/processors/' << id
     self.class.http_client(base_url, 'PUT', params)
   end
 
@@ -183,7 +183,7 @@ class Nifi
 
     params = '{"revision":{"version":' << version << '},"id":"' << id << '","component":{"id":"' << id <<
         '","state":"STOPPED"},"status":{"runStatus": "Stopped"}}'
-    base_url = @@base_url << '/processors/' << id
+    base_url = @@base_url + '/processors/' << id
     self.class.http_client(base_url, 'PUT', params)
   end
 
@@ -193,10 +193,10 @@ class Nifi
       raise ArgumentError.new('id and update_json params are mandatory')
     end
 
-    id = args[:id]
-
+    id = args[:id].to_s
     params =
-    base_url = @@base_url << '/processors/' << id
+
+    base_url = @@base_url + '/processors/' << id
     self.class.http_client(base_url, 'PUT', params)
   end
 
@@ -234,7 +234,7 @@ class Nifi
     originY = args[:originY] ? args[:originY].to_s : '0.0'
     process_group = args[:process_group_id] ? args[:process_group_id] : 'root'
     params = '{"templateId": "' << id << '", "originX": ' << originX << ', "originY": ' << originY << '}'
-    base_url = @@base_url << '/process-groups/' << process_group << '/template-instance'
+    base_url = @@base_url + '/process-groups/' << process_group << '/template-instance'
     self.class.http_client(base_url, 'POSTRAW', params)
   end
 
@@ -271,7 +271,7 @@ class Nifi
 
     process_group = args[:id] ? args[:id] : 'root'
 
-    base_url = @@base_url << '/process-groups/' << process_group << '/templates/upload'
+    base_url = @@base_url + '/process-groups/' << process_group << '/templates/upload'
     res = self.class.http_client(base_url, 'POST', params)
 
     return res['templateEntity']['template']
@@ -283,7 +283,7 @@ class Nifi
       raise ArgumentError.new('id is mandatory.')
     end
 
-    base_url = @@base_url << '/templates/' << id
+    base_url = @@base_url + '/templates/' << id
     self.class.http_client(base_url, 'DELETE')
   end
 
@@ -341,14 +341,14 @@ class Nifi
   private
 
   def self.exists
-    base_url = @@base_url << '/resources'
+    base_url = @@base_url + '/resources'
     res = self.http_client(base_url)
-
+    puts base_url
     return res['resources']
   end
 
   def self.get(resource)
-    base_url = @@base_url << resource
+    base_url = @@base_url + resource
     self.http_client(base_url)
   end
 
@@ -358,7 +358,7 @@ class Nifi
     #c.username                     = @@api_key
     #c.password                     = ''
     c.url                         = url
-    c.useragent                   = @@sdk_name << '_' << @@sdk_version
+    c.useragent                   = @@sdk_name + '_' + @@sdk_version
     c.headers['NIFI-SDK-Name']    = @@sdk_name
     c.headers['NIFI-SDK-Version'] = @@sdk_version
     c.ssl_verify_peer             = false
