@@ -111,7 +111,7 @@ class Nifi
       raise ArgumentError.new('The process group ' << name << ' already exists')
     end
 
-    params = '{"revision":{"clientId":"' << @@client_id << '","version":0},"component":{"name":"' << name <<
+    params = '{"revision":{"clientId":"' << @@client_id + '","version":0},"component":{"name":"' << name <<
         '","position":{"x":274.54776144527517,"y":-28.886681059739686}}}'
 
     process_group = args[:id] ? args[:id] : 'root'
@@ -125,7 +125,7 @@ class Nifi
       raise ArgumentError.new('id is mandatory.')
     end
 
-    base_url = @@base_url + '/process-groups/' << id << '?clientId=' << @@client_id << '&version=1'
+    base_url = @@base_url + '/process-groups/' << id << '?clientId=' << @@client_id + '&version=1'
     self.class.http_client(base_url, 'DELETE')
   end
 
@@ -194,7 +194,14 @@ class Nifi
     end
 
     id = args[:id].to_s
-    params =
+    case args[:update_json]
+      when Hash
+        params = args[:update_json].to_json
+      when String
+        params = args[:update_json]
+      else
+        raise ArgumentError.new('update_json param must be either a Hash or a String')
+    end
 
     base_url = @@base_url + '/processors/' << id
     self.class.http_client(base_url, 'PUT', params)
@@ -343,7 +350,6 @@ class Nifi
   def self.exists
     base_url = @@base_url + '/resources'
     res = self.http_client(base_url)
-    puts base_url
     return res['resources']
   end
 
@@ -358,7 +364,7 @@ class Nifi
     #c.username                     = @@api_key
     #c.password                     = ''
     c.url                         = url
-    c.useragent                   = @@sdk_name + '_' + @@sdk_version
+    c.useragent                   = @@sdk_name + '_' << @@sdk_version
     c.headers['NIFI-SDK-Name']    = @@sdk_name
     c.headers['NIFI-SDK-Version'] = @@sdk_version
     c.ssl_verify_peer             = false
@@ -391,6 +397,7 @@ class Nifi
         end
       end
     else
+      puts c.response_code.to_s
       puts c.body_str
     end
   end
