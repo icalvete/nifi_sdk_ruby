@@ -24,13 +24,13 @@ puts "\n"
 # Get all attrs of the Process Group by ID (PG Root's child)
 puts 'PG ' + new_pg['id'] + ' attrs.'
 puts "\n"
-puts nifi_client.get_process_group(:id => new_pg['id'])
+puts nifi_client.get_process_group(new_pg['id'])
 puts "\n"
 
 # Get a Process Group ID
 puts "PG ID"
 puts "\n"
-pg = nifi_client.get_process_group(:id => new_pg['id'])
+pg = nifi_client.get_process_group(new_pg['id'])
 puts pg['id']
 puts "\n"
 
