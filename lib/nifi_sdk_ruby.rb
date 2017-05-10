@@ -166,10 +166,20 @@ class Nifi
     id = args[:id].to_s
     version = args[:version].to_s
 
-    params = '{"revision":{"version":' << version << '},"id":"' << id << '","component":{"id":"' << id <<
-        '","state":"RUNNING"},"status":{"runStatus":"Running"}}'
-    base_url = @@base_url + '/processors/' << id
-    self.class.http_client(base_url, 'PUT', params)
+    params = {
+        revision:{
+            version: version
+        },
+        id: id,
+        component:{
+            id: id,
+            state: 'RUNNING'
+        },
+        status:{
+            runStatus: 'Running'
+        }
+    }
+    update_process(id: id, update_json: params)
   end
 
   def stop_process(*args)
@@ -181,12 +191,32 @@ class Nifi
     id = args[:id].to_s
     version = args[:version].to_s
 
-    params = '{"revision":{"version":' << version << '},"id":"' << id << '","component":{"id":"' << id <<
-        '","state":"STOPPED"},"status":{"runStatus": "Stopped"}}'
-    base_url = @@base_url + '/processors/' << id
-    self.class.http_client(base_url, 'PUT', params)
+    params = {
+        revision:{
+            version: version
+        },
+        id: id,
+        component:{
+            id: id,
+            state: 'STOPPED'
+        },
+        status:{
+            runStatus: 'Stopped'
+        }
+    }
+    update_process(id: id, update_json: params)
   end
 
+  ##
+  # NiFi has a classic Optimistic Locking pattern implementation which means that your call will only be
+  # accepted and processed as valid if you specify the right version of the component in the revision -> version field
+  #
+  # ArgumentError is raised if you haven't specified required arguments or they are invalid
+  #
+  # Updates the process by id using given JSON string or Hash
+  # Params:
+  # :id => the id of the process
+  # :update_json => json with updated values, could be either a JSON string or Ruby Hash
   def update_process(*args)
     args = args.reduce Hash.new, :merge
     if args[:id].nil? or args[:update_json].nil?

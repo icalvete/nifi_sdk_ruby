@@ -117,7 +117,6 @@ Or by name
 puts nifi_client.create_template_instance(:name => 'TemplateName')
 ```
 
-###
 
 ## Contributing
 
