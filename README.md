@@ -59,7 +59,7 @@ puts nifi_client.process_group_by_name? test
 ### Get all attrs a the Process Group by ID (PG Root's child)
 
 ```ruby
-puts  nifi_client.get_process_group(:id => new_pg['id'])
+puts  nifi_client.get_process_group(new_pg['id'])
 ```
 
 ### Get all attrs a the Process Group by Name (Root's childs)
@@ -106,6 +106,17 @@ puts t
 ```ruby
 puts nifi_client.delete_template t['id']
 ```
+
+### Create template instance
+By id 
+```ruby
+puts nifi_client.create_template_instance(:id => '43fwe1s-asd2-sdf3-sfq3ev')
+```
+Or by name
+```ruby
+puts nifi_client.create_template_instance(:name => 'TemplateName')
+```
+
 
 ## Contributing
 
