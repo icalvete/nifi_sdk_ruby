@@ -14,7 +14,7 @@ class Nifi
 
   DEFAULT_HOST   = 'localhost'
   DEFAULT_SCHEMA = 'http'
-  DEFAULT_PORT   = '8080'
+  DEFAULT_PORT   = 8080
   DEFAULT_DEBUG  = false
   DEFAULT_ACYNC  = false
 
@@ -28,20 +28,26 @@ class Nifi
   @@sdk_name
   @@sdk_version
   @@client_id
+  @@cert
+  @@cert_key
+  @@cert_password
 
   def initialize(*args)
 
     args = args.reduce Hash.new, :merge
 
-    @@schema      = args[:schema] ? args[:schema] : DEFAULT_SCHEMA
-    @@host        = args[:host] ? args[:host] : DEFAULT_HOST
-    @@port        = args[:port] ? args[:port] : DEFAULT_PORT
-    @@base_url    = @@schema + '://' + @@host + ':' + @@port + '/nifi-api'
-    @@debug       = DEFAULT_DEBUG
-    @@async       = DEFAULT_ACYNC
-    @@sdk_name    = 'ruby'
-    @@sdk_version = NifiSdkRuby::VERSION
-    @@client_id   = SecureRandom.uuid
+    @@schema        = args[:schema] ? args[:schema] : DEFAULT_SCHEMA
+    @@host          = args[:host] ? args[:host] : DEFAULT_HOST
+    @@port          = args[:port] ? args[:port] : DEFAULT_PORT
+    @@base_url      = @@schema + '://' + @@host + ':' + @@port.to_s + '/nifi-api'
+    @@debug         = DEFAULT_DEBUG
+    @@async         = DEFAULT_ACYNC
+    @@sdk_name      = 'ruby'
+    @@sdk_version   = NifiSdkRuby::VERSION
+    @@client_id     = SecureRandom.uuid
+    @@cert          = args[:cert] ? args[:cert] : nil
+    @@cert_key      = args[:cert_key] ? args[:cert_key] : nil
+    @@cert_password = args[:cert_password] ? args[:cert_key] : nil
   end
 
   def set_debug(debug = nil)
@@ -167,17 +173,17 @@ class Nifi
     version = args[:version].to_s
 
     params = {
-        revision:{
-            version: version
-        },
+      revision:{
+        version: version
+      },
+      id: id,
+      component:{
         id: id,
-        component:{
-            id: id,
-            state: 'RUNNING'
-        },
-        status:{
-            runStatus: 'Running'
-        }
+        state: 'RUNNING'
+      },
+      status:{
+        runStatus: 'Running'
+      }
     }
     update_process(id: id, update_json: params)
   end
@@ -192,17 +198,17 @@ class Nifi
     version = args[:version].to_s
 
     params = {
-        revision:{
-            version: version
-        },
+      revision:{
+        version: version
+      },
+      id: id,
+      component:{
         id: id,
-        component:{
-            id: id,
-            state: 'STOPPED'
-        },
-        status:{
-            runStatus: 'Stopped'
-        }
+        state: 'STOPPED'
+      },
+      status:{
+        runStatus: 'Stopped'
+      }
     }
     update_process(id: id, update_json: params)
   end
@@ -300,7 +306,8 @@ class Nifi
     name = t.xpath('//template/name').text
 
     if self.template_by_name? name
-      raise StandardError.new('The template ' << name << ' already exists')
+      self.delete_template self.get_template_by_name name
+      #raise StandardError.new('The template ' << name << ' already exists')
     end
 
     params = Array.new
@@ -333,12 +340,12 @@ class Nifi
     res = self.class.exists
 
     t = res.select do |r|
-      r['name'] == name and r['identifier'] =~ /templates/
+      r['name'] == name and r['identifier'] =~ /^\/templates\//
     end
 
 
     if t.count == 1
-      t[0]['identifier'].scan(/\/templates\/(.*)/)
+      t[0]['identifier'].scan(/\/templates\/(.*)/)[0][0]
     else
       raise StandardError.new('Unable to locate template with name ' << name)
     end
@@ -398,6 +405,18 @@ class Nifi
     c.headers['NIFI-SDK-Name']    = @@sdk_name
     c.headers['NIFI-SDK-Version'] = @@sdk_version
     c.ssl_verify_peer             = false
+    c.ssl_verify_host             = false
+
+    if @@schema == 'https' and @@cert
+      c.cert  = @@cert
+    end
+    if @@schema == 'https' and @@cert_key
+      c.cert_key = @@cert_key
+    end
+    if @@schema == 'https' and @@cert_password
+      c.certpassword = @@cert_password
+    end
+
     #c.verbose                     = true
 
     case method
