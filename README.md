@@ -34,6 +34,14 @@ nifi_client.set_debug true
 
 ```
 
+```ruby
+require 'nifi_sdk_ruby'
+
+nifi_client = Nifi.new(
+    :host => 'nifi.my.org',
+    :port => '6666',
+)
+
 ### Get Root's Process Group id
 
 ```ruby
@@ -117,6 +125,15 @@ Or by name
 puts nifi_client.create_template_instance(:name => 'TemplateName')
 ```
 
+### SSL and auth by cert
+
+```ruby
+nifi_client = Nifi.new(
+    :schema   => 'https',
+    :cert     => '/opt/secure/nifi/admin-cert.pem',
+    :cert_key => '/opt/secure/nifi/admin-private-key.pem',
+)
+```
 
 ## Contributing
 
