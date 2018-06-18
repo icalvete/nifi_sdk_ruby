@@ -98,6 +98,37 @@ class Nifi
     @@base_url
   end
 
+  def get_resources()
+    base_url = @@base_url + '/resources'
+    self.class.http_client(base_url)
+  end
+
+  def get_flow_status()
+
+    base_url = @@base_url + '/flow/status'
+    self.class.http_client(base_url)
+  end
+  
+  def get_conection_status(id = nil)
+
+    if id.nil?
+      raise ArgumentError.new('name params is mandatory.')
+    end
+
+    base_url = @@base_url + "/flow/connections/#{id}/status"
+    self.class.http_client(base_url)
+  end
+
+  def get_conection_status_history(id = nil)
+
+    if id.nil?
+      raise ArgumentError.new('name params is mandatory.')
+    end
+
+    base_url = @@base_url + "/flow/connections/#{id}/status/history"
+    self.class.http_client(base_url)
+  end
+
   def get_process_group(id = nil)
 
     process_group = id ? id : 'root'
